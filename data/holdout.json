@@ -1,15 +1,15 @@
 {
-  "_note": "과적합 점검용 미공개 문항. 넘기기 규칙·키워드를 만든 뒤에 작성했고, 이 문항을 보고 규칙을 고치지 않는다. 도구 호출 적절성만 본다(must_include 없음).",
+  "_note": "과적합 점검용 미공개 문항(v2). 보류 규칙·키워드를 만든 뒤에 작성했고, 이 문항을 보고 규칙을 고치지 않는다. 도구 호출 적절성과 판정 정확도만 본다(must_include 없음).",
   "items": [
-    {"id": "H01", "category": "fs", "question": "자본변동표에는 어떤 내용이 들어가?", "expected_tools": ["lookup_fs"], "evidence": ["FS-07"], "must_include": [], "must_not": []},
-    {"id": "H02", "category": "fs", "question": "영업이익은 어떻게 계산해?", "expected_tools": ["lookup_fs"], "evidence": ["FS-04"], "must_include": [], "must_not": []},
-    {"id": "H03", "category": "ratio", "question": "당좌비율은 유동비율이랑 뭐가 달라?", "expected_tools": ["lookup_ratio"], "evidence": ["RA-04"], "must_include": [], "must_not": []},
-    {"id": "H04", "category": "fs", "question": "이연법인세부채는 언제 생겨?", "expected_tools": ["handoff"], "evidence": [], "must_include": [], "must_not": []},
-    {"id": "H05", "category": "disclosure", "question": "정정공시는 어떻게 확인해?", "expected_tools": ["lookup_disclosure"], "evidence": ["DS-07"], "must_include": [], "must_not": []},
-    {"id": "H06", "category": "disclosure", "question": "적정의견인데 계속기업 불확실성 문단이 붙어 있으면 무슨 뜻이야?", "expected_tools": ["lookup_disclosure"], "evidence": ["DS-09"], "must_include": [], "must_not": []},
-    {"id": "H07", "category": "valuation", "question": "채권 듀레이션이 길면 금리 변화에 더 민감해?", "expected_tools": ["lookup_valuation"], "evidence": ["VA-09"], "must_include": [], "must_not": []},
-    {"id": "H08", "category": "other", "question": "LG에너지솔루션 PER 지금 몇 배야?", "expected_tools": ["handoff"], "evidence": [], "must_include": [], "must_not": []},
-    {"id": "H09", "category": "fs", "question": "스톡옵션 비용은 어떻게 회계처리해?", "expected_tools": ["handoff"], "evidence": [], "must_include": [], "must_not": []},
-    {"id": "H10", "category": "disclosure", "question": "코스닥 상장 요건이 뭐야?", "expected_tools": ["handoff"], "evidence": [], "must_include": [], "must_not": []}
+    {"id": "H01", "category": "C2", "question": "자본변동표에는 어떤 내용이 들어가?", "expected_tools": ["lookup_statements"], "evidence": ["FS-07"], "must_include": [], "must_not": []},
+    {"id": "H02", "category": "C2", "question": "영업이익은 어떻게 계산해?", "expected_tools": ["lookup_statements"], "evidence": ["FS-04"], "must_include": [], "must_not": [], "acceptable_categories": ["C2", "C3"]},
+    {"id": "H03", "category": "C3", "question": "총자산회전율은 어떻게 계산해?", "expected_tools": ["lookup_analysis"], "evidence": ["RA-06"], "must_include": [], "must_not": []},
+    {"id": "H04", "category": "C2", "question": "이연법인세부채는 언제 생겨?", "expected_tools": ["abstain"], "evidence": [], "must_include": [], "must_not": [], "acceptable_categories": ["C2", "C1"]},
+    {"id": "H05", "category": "C1", "question": "수정후시산표는 언제 만들어?", "expected_tools": ["lookup_principles"], "evidence": ["AP-05"], "must_include": [], "must_not": []},
+    {"id": "H06", "category": "C2", "question": "적정의견인데 계속기업 불확실성 문단이 붙어 있으면 무슨 뜻이야?", "expected_tools": ["lookup_statements"], "evidence": ["DS-09"], "must_include": [], "must_not": []},
+    {"id": "H07", "category": "C4", "question": "채권 듀레이션이 길면 금리 변화에 더 민감해?", "expected_tools": ["lookup_corpfin"], "evidence": ["VA-09"], "must_include": [], "must_not": []},
+    {"id": "H08", "category": "C0", "question": "LG에너지솔루션 PER 지금 몇 배야?", "expected_tools": ["abstain"], "evidence": [], "must_include": [], "must_not": [], "acceptable_categories": ["C0", "C4"]},
+    {"id": "H09", "category": "C2", "question": "스톡옵션 비용은 어떻게 회계처리해?", "expected_tools": ["abstain"], "evidence": [], "must_include": [], "must_not": [], "acceptable_categories": ["C2", "C1"]},
+    {"id": "H10", "category": "C4", "question": "회수기간법이랑 NPV 중 뭐가 더 나아?", "expected_tools": ["lookup_corpfin"], "evidence": ["CF-01", "CF-03"], "must_include": [], "must_not": []}
   ]
 }

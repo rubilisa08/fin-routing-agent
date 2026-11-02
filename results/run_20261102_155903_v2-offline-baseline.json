@@ -1,0 +1,4194 @@
+{
+  "summary": {
+    "label": "v2-offline-baseline",
+    "time": "2026-11-02 15:59",
+    "provider": "offline",
+    "model": "rule-based",
+    "grader": "keyword",
+    "settings": {
+      "top_k": 4,
+      "min_similarity": 0.05,
+      "confidence_threshold": 0.6,
+      "use_scope_rules": true,
+      "use_term_coverage": true,
+      "use_llm_gate": true
+    },
+    "n": 50,
+    "data": "goldenset.json",
+    "tool_score": 0.9,
+    "answer_score": 0.62,
+    "router_accuracy": 0.9,
+    "retrieval_relevance": 0.84375,
+    "answer_accuracy": 0.46875,
+    "unsupported_rate": 0.0,
+    "abstain_accuracy": 0.9,
+    "drafts_caught_by_verifier": 0,
+    "api_calls": 0,
+    "cache_hits": 0
+  },
+  "records": [
+    {
+      "id": "P01",
+      "question": "분개가 뭐야? 비품을 현금으로 샀을 때 예시로 보여줘",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-04"
+      ],
+      "sections": [
+        "AP-04",
+        "AP-08",
+        "AP-07",
+        "AP-05"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.244 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-04', 'AP-08']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "분개는 거래를 차변 계정·대변 계정과 금액으로 나누어 기록하는 것이다. [AP-04]\n분개는 분개장에 거래 발생 순서대로 기록한다. [AP-04]\n비품 500,000원을 현금으로 구입: (차) 비품 500,000 / (대) 현금 500,000 — 자산 증가와 자산 감소 [AP-04]\n급여 1,200,000원을 현금으로 지급: (차) 급여 1,200,000 / (대) 현금 1,200,000 — 비용 발생과 자산 감소 [AP-04]\n수익과 비용 계정은 한 회계기간의 성과를 기록하는 임시계정이므로, 결산 때 잔액을 0으로 마감하고 그 차액인 당기순이익(또는 당기순손실)을 이익잉여금으로 대체한다. [AP-08]",
+      "citations": [
+        {
+          "id": "AP-04",
+          "title": "분개와 분개 예시",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "AP-08",
+          "title": "마감",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "P02",
+      "question": "차변이랑 대변은 각각 어떤 변동이 생길 때 기록해?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-02",
+        "AP-03"
+      ],
+      "sections": [
+        "AP-03",
+        "AP-05",
+        "AP-02",
+        "AP-08"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "차변에는 자산의 증가, 부채의 감소, 자본의 감소, 비용의 발생을 기록한다",
+        "대변에는 자산의 감소, 부채의 증가, 자본의 증가, 수익의 발생을 기록한다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.190 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-02', 'AP-03']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "자산 계정: 증가는 차변, 감소는 대변. 잔액은 차변에 남는다. [AP-03]\n부채 계정: 증가는 대변, 감소는 차변. 잔액은 대변에 남는다. [AP-03]\n자본 계정: 증가는 대변, 감소는 차변. 잔액은 대변에 남는다. [AP-03]\n차변과 대변은 '좋다·나쁘다'나 '들어옴·나감'이 아니라 기록 위치를 가리키는 말이다. [AP-03]\n모든 회계상 거래는 차변과 대변에 같은 금액으로 기록된다(거래의 이중성). 그래서 전체 차변 합계와 대변 합계는 항상 같다(대차평균의 원리). [AP-02]",
+      "citations": [
+        {
+          "id": "AP-03",
+          "title": "계정과 차변·대변 기록 규칙",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "AP-02",
+          "title": "거래의 이중성과 거래의 8요소",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재(복식부기의 원리)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 차변에는 자산의 증가, 부채의 감소, 자본의 감소, 비용의 발생을 기록한다",
+        "[답변] 필수 사실 누락: 대변에는 자산의 감소, 부채의 증가, 자본의 증가, 수익의 발생을 기록한다"
+      ]
+    },
+    {
+      "id": "P03",
+      "question": "시산표 차변 합계랑 대변 합계가 같으면 장부에 오류가 없는 거야?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-05"
+      ],
+      "sections": [
+        "AP-05",
+        "AP-02",
+        "AP-03",
+        "AP-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.356 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-02', 'AP-05']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "시산표는 원장 각 계정의 잔액(또는 합계)을 모은 표로, 차변 합계와 대변 합계가 일치하는지 확인해 기록 오류를 점검한다. [AP-05]\n시산표의 한계: 차변·대변 합계가 일치해도 발견하지 못하는 오류가 있다. [AP-05]\n모든 회계상 거래는 차변과 대변에 같은 금액으로 기록된다(거래의 이중성). 그래서 전체 차변 합계와 대변 합계는 항상 같다(대차평균의 원리). [AP-02]",
+      "citations": [
+        {
+          "id": "AP-05",
+          "title": "회계순환과정과 시산표",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "AP-02",
+          "title": "거래의 이중성과 거래의 8요소",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재(복식부기의 원리)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "P04",
+      "question": "발생주의랑 현금주의는 수익을 언제 인식하는지가 어떻게 달라?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-06"
+      ],
+      "sections": [
+        "AP-06",
+        "AP-07",
+        "AP-04",
+        "AP-02"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.335 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-06']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "발생주의(발생기준)는 현금을 주고받은 시점이 아니라 거래와 사건이 발생한 기간에 그 영향을 인식하는 방법이다. [AP-06]\n현금주의는 현금을 받거나 지급한 시점에 수익과 비용을 인식한다. [AP-06]\n발생주의에서 수익은 재화나 용역을 제공하여 대가를 받을 권리를 얻은 기간에 인식하고, 비용은 그 수익을 얻기 위해 쓰인 기간에 대응시켜 인식한다(수익·비용 대응). [AP-06]\n예: 12월에 외상으로 판매하고 다음 해 1월에 현금을 받았다면, 발생주의에서는 12월이 속한 기간의 수익이고 현금주의에서는 1월이 속한 기간의 수익이다. [AP-06]\n재무제표는 현금흐름표를 제외하고 발생주의로 작성한다. [AP-06]",
+      "citations": [
+        {
+          "id": "AP-06",
+          "title": "발생주의와 현금주의",
+          "doc": "회계원리 학습노트",
+          "source": "재무보고를 위한 개념체계 문단 1.17; 회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "P05",
+      "question": "7월 1일에 1년치 보험료 120만원을 미리 내고 자산으로 기록했으면 12월 31일 결산 때 어떻게 분개해?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-07"
+      ],
+      "sections": [
+        "AP-07",
+        "AP-01",
+        "AP-04",
+        "AP-08"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.297 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-07']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "예: 7월 1일에 1년치 보험료 1,200,000원을 지급하고 전액 선급보험료(자산)로 기록했다면, 12월 31일 결산에서 6개월분을 비용으로 바꾼다: (차) 보험료 600,000 / (대) 선급보험료 600,000. [AP-07]",
+      "citations": [
+        {
+          "id": "AP-07",
+          "title": "결산정리분개(수정분개)",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "P06",
+      "question": "취득원가 2000만원, 잔존가치 200만원, 내용연수 4년인 기계의 정액법 연간 감가상각비는?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-07"
+      ],
+      "sections": [
+        "AP-07",
+        "AP-04",
+        "AP-01",
+        "AP-05"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "연간 감가상각비는 4,500,000원이다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.332 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-07']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "정액법 감가상각비 = (취득원가 − 잔존가치) ÷ 내용연수 [AP-07]\n예: 취득원가 10,000,000원, 잔존가치 1,000,000원, 내용연수 5년인 기계의 연간 감가상각비는 (10,000,000 − 1,000,000) ÷ 5 = 1,800,000원이다. [AP-07]",
+      "citations": [
+        {
+          "id": "AP-07",
+          "title": "결산정리분개(수정분개)",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 연간 감가상각비는 4,500,000원이다"
+      ]
+    },
+    {
+      "id": "P07",
+      "question": "결산 때 수익이랑 비용 계정은 어떻게 마감해?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-08"
+      ],
+      "sections": [
+        "AP-08",
+        "AP-01",
+        "AP-03",
+        "AP-05"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.303 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-01', 'AP-03', 'AP-08']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "수익과 비용 계정은 한 회계기간의 성과를 기록하는 임시계정이므로, 결산 때 잔액을 0으로 마감하고 그 차액인 당기순이익(또는 당기순손실)을 이익잉여금으로 대체한다. [AP-08]\n자산·부채·자본 계정은 영구계정이므로 잔액을 다음 기간으로 이월한다. [AP-08]\n결산 전 시산표 등식: 자산 + 비용 = 부채 + 자본 + 수익 [AP-01]\n수익은 자본을 증가시키고 비용은 자본을 감소시키므로, 기간 중에는 수익과 비용을 별도 계정으로 기록했다가 결산 때 자본(이익잉여금)으로 옮긴다. [AP-01]\n비용 계정: 발생은 차변에 기록한다. [AP-03]",
+      "citations": [
+        {
+          "id": "AP-08",
+          "title": "마감",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "AP-01",
+          "title": "회계의 정의와 회계등식",
+          "doc": "회계원리 학습노트",
+          "source": "재무보고를 위한 개념체계 문단 4.3, 4.26, 4.63; 회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "AP-03",
+          "title": "계정과 차변·대변 기록 규칙",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "P08",
+      "question": "선수수익이랑 미수수익은 뭐가 달라?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-07"
+      ],
+      "sections": [
+        "AP-07",
+        "AP-06",
+        "AP-01",
+        "AP-02"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.129 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-07']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "선수수익(수익의 이연): 미리 받은 수익 중 다음 기간 몫은 부채로 남긴다. [AP-07]\n미수수익(수익의 발생): 이번 기간에 발생했지만 아직 받지 않은 수익을 자산과 함께 인식한다. [AP-07]",
+      "citations": [
+        {
+          "id": "AP-07",
+          "title": "결산정리분개(수정분개)",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "P09",
+      "question": "법인세 신고할 때 세무조정은 어떻게 해?",
+      "expected_category": [
+        "C1",
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "P10",
+      "question": "제조간접비는 제품별로 어떻게 배부해?",
+      "expected_category": [
+        "C1",
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.6,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "S01",
+      "question": "기타포괄손익은 당기순이익이랑 뭐가 달라? 나중에 전부 당기손익으로 옮겨지는 거야?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "FS-04",
+        "FS-05"
+      ],
+      "sections": [
+        "FS-05",
+        "FS-04",
+        "FS-07",
+        "FS-03"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "재분류되지 않는 항목의 예(재평가잉여금, 확정급여제도 재측정요소, 기타포괄손익-공정가치 지분상품 평가손익 중 하나 이상)"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.421 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-05']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "기타포괄손익은 다른 기준서에서 당기손익으로 인식하지 않도록 요구하거나 허용하는 수익과 비용 항목이다. [FS-05]\n기타포괄손익은 당기순이익에 포함되지 않고, 총포괄손익에 포함된다. [FS-05]\n기타포괄손익은 후속적으로 당기손익으로 재분류되는지에 따라 두 집단으로 나누어 표시한다. [FS-05]\n'재분류조정'은 당기나 과거 기간에 기타포괄손익으로 인식되었다가 당기손익으로 옮겨지는 금액이다. [FS-05]\n즉, 모든 기타포괄손익이 나중에 당기손익으로 옮겨지는 것은 아니다. [FS-05]",
+      "citations": [
+        {
+          "id": "FS-05",
+          "title": "기타포괄손익(OCI)과 재분류조정",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1001호 문단 7, 82A, 92~96",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 재분류되지 않는 항목의 예(재평가잉여금, 확정급여제도 재측정요소, 기타포괄손익-공정가치 지분상품 평가손익 중 하나 이상)"
+      ]
+    },
+    {
+      "id": "S02",
+      "question": "유동자산이랑 비유동자산은 뭘 기준으로 나눠? 그냥 1년 안에 현금화되면 유동인 거지?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "FS-02"
+      ],
+      "sections": [
+        "FS-02",
+        "FS-09",
+        "FS-04",
+        "FS-06"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "주로 단기매매 목적으로 보유하는 자산도 유동자산이다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.219 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-02']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "자산은 다음 중 하나에 해당하면 유동자산으로 분류하고, 그 밖의 모든 자산은 비유동자산으로 분류한다. [FS-02]\n정상영업주기가 12개월보다 긴 업종(예: 조선, 건설)에서는 12개월이 넘어 실현되는 재고자산이나 매출채권도 유동자산이 될 수 있다. [FS-02]",
+      "citations": [
+        {
+          "id": "FS-02",
+          "title": "재무상태표와 유동·비유동 구분",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1001호 문단 60~76",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 주로 단기매매 목적으로 보유하는 자산도 유동자산이다"
+      ]
+    },
+    {
+      "id": "S03",
+      "question": "연결재무제표랑 별도재무제표는 뭐가 달라?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "FS-10"
+      ],
+      "sections": [
+        "DS-04",
+        "FS-10",
+        "FS-01",
+        "FS-09"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "연결재무제표에서는 비지배지분을 지배기업 소유주지분과 구분해 표시한다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.285 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-04', 'FS-10']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "'III. 재무에 관한 사항'에는 보통 요약재무정보, 연결재무제표, 연결재무제표 주석, 재무제표(별도), 재무제표 주석, 배당에 관한 사항 등이 들어 있다. [DS-04]\n연결재무제표인지 별도재무제표인지 구분한다. [DS-04]\n연결재무제표는 지배기업과 그 종속기업의 자산, 부채, 자본, 수익, 비용, 현금흐름을 하나의 경제적 실체로 표시하는 재무제표이다. [FS-10]\n별도재무제표는 지배기업이 작성하는 재무제표로서, 종속기업·관계기업·공동기업에 대한 투자를 원가법, K-IFRS 제1109호에 따른 공정가치법, 지분법 중 하나를 선택하여 회계처리한다. [FS-10]\n상장회사 사업보고서에는 연결재무제표와 별도재무제표가 함께 실리므로, 어느 쪽 숫자를 보고 있는지 항상 확인해야 한다. [FS-10]",
+      "citations": [
+        {
+          "id": "DS-04",
+          "title": "사업보고서에서 재무제표 찾기",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "금융감독원 기업공시서식 작성기준; 사업보고서 읽기 실무",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "FS-10",
+          "title": "연결재무제표와 별도재무제표",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1110호 문단 7, 22; K-IFRS 제1027호 문단 10",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 연결재무제표에서는 비지배지분을 지배기업 소유주지분과 구분해 표시한다"
+      ]
+    },
+    {
+      "id": "S04",
+      "question": "사업보고서는 언제까지 제출해야 돼? 분기보고서는?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "DS-02"
+      ],
+      "sections": [
+        "DS-02",
+        "DS-05",
+        "DS-04",
+        "DS-03"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.323 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-02', 'DS-03', 'DS-04']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "사업보고서: 사업연도 경과 후 90일 이내 [DS-02]\n분기보고서: 분기 경과 후 45일 이내 [DS-02]\n12월 결산법인은 보통 3월 말까지 사업보고서를, 5월·8월·11월 중순까지 1분기·반기·3분기 보고서를 제출한다. [DS-02]\n감사보고서는 별도 첨부서류로도 제출된다. [DS-04]\n사업보고서는 대체로 다음 목차로 구성된다. [DS-03]",
+      "citations": [
+        {
+          "id": "DS-02",
+          "title": "정기공시: 사업보고서·반기보고서·분기보고서",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "자본시장과 금융투자업에 관한 법률 제159조, 제160조",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "DS-04",
+          "title": "사업보고서에서 재무제표 찾기",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "금융감독원 기업공시서식 작성기준; 사업보고서 읽기 실무",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "DS-03",
+          "title": "사업보고서의 구성",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "금융감독원 기업공시서식 작성기준(사업보고서 목차)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "S05",
+      "question": "감사의견 한정이랑 부적정은 뭐가 달라?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "DS-09"
+      ],
+      "sections": [
+        "DS-09",
+        "DS-08",
+        "DS-03",
+        "DS-06"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "한정의견은 왜곡표시(또는 감사범위 제한)의 영향이 중요하지만 전반적이지는 않을 때 표명한다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.203 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-03', 'DS-09']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "부적정의견: 왜곡표시가 재무제표에 중요하고 동시에 전반적인 경우 표명한다. [DS-09]\n한정·부적정·의견거절을 묶어 '변형의견(비적정의견)'이라고 부른다. [DS-09]\n강조사항 문단이나 계속기업 관련 중요한 불확실성 문단은 감사의견을 변형하지 않는다. [DS-09]\nV. 회계감사인의 감사의견 등 [DS-03]\n사업 구조와 매출 구성은 'II. 사업의 내용'에서, 재무제표는 'III. 재무에 관한 사항'에서, 감사의견은 'V. 회계감사인의 감사의견 등'에서 확인한다. [DS-03]",
+      "citations": [
+        {
+          "id": "DS-09",
+          "title": "감사의견의 네 가지 종류",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "회계감사기준 감사기준서 700, 705, 706",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "DS-03",
+          "title": "사업보고서의 구성",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "금융감독원 기업공시서식 작성기준(사업보고서 목차)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 한정의견은 왜곡표시(또는 감사범위 제한)의 영향이 중요하지만 전반적이지는 않을 때 표명한다"
+      ]
+    },
+    {
+      "id": "S06",
+      "question": "DART 사업보고서에서 재무제표는 어디서 보면 돼? 볼 때 주의할 점도 알려줘",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "DS-03",
+        "DS-04"
+      ],
+      "sections": [
+        "DS-01",
+        "DS-04",
+        "DS-07",
+        "FS-10"
+      ],
+      "retrieval_ok": 0,
+      "answer_score": 0,
+      "missing": [
+        "재무제표는 'III. 재무에 관한 사항'에서 확인한다",
+        "금액 단위(원·천원·백만원)를 확인한다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.188 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-01', 'DS-07', 'FS-10']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "DART(dart.fss.or.kr)는 금융감독원이 운영하는 전자공시시스템으로, 상장회사 등이 제출한 사업보고서·감사보고서·주요사항보고서·증권신고서 등을 누구나 조회할 수 있다. [DS-01]\n재무 데이터를 프로그램으로 받으려면 금융감독원이 제공하는 Open DART API(opendart.fss.or.kr)를 사용할 수 있다. [DS-01]\nDART에서는 보고서 이름 앞에 '[기재정정]', '[첨부정정]' 등이 붙는다. [DS-07]\n같은 보고서가 여러 번 정정된 경우 가장 최근 정정본이 유효하며, 정정 사유와 정정 전후 내용을 비교해 보면 무엇이 바뀌었는지 알 수 있다. [DS-07]\n상장회사 사업보고서에는 연결재무제표와 별도재무제표가 함께 실리므로, 어느 쪽 숫자를 보고 있는지 항상 확인해야 한다. [FS-10]",
+      "citations": [
+        {
+          "id": "DS-01",
+          "title": "전자공시시스템 DART와 KIND",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "금융감독원 DART·Open DART 이용 안내; 한국거래소 KIND",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "DS-07",
+          "title": "정정공시",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "DART 정정공시 표시 관행",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "FS-10",
+          "title": "연결재무제표와 별도재무제표",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1110호 문단 7, 22; K-IFRS 제1027호 문단 10",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[근거] 필요한 섹션 ['DS-03']이 조립되지 않음 (조립: ['DS-01', 'DS-04', 'DS-07', 'FS-10'])",
+        "[답변] 필수 사실 누락: 재무제표는 'III. 재무에 관한 사항'에서 확인한다",
+        "[답변] 필수 사실 누락: 금액 단위(원·천원·백만원)를 확인한다"
+      ]
+    },
+    {
+      "id": "S07",
+      "question": "현금흐름표에서 이자 지급은 어느 활동으로 분류해?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "FS-06"
+      ],
+      "sections": [
+        "FS-06",
+        "FS-09",
+        "FS-10",
+        "FS-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.290 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-06', 'FS-09']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "현금흐름표는 일정 기간의 현금및현금성자산 변동을 영업활동, 투자활동, 재무활동으로 구분하여 보여준다. [FS-06]\n이자의 수취·지급과 배당금의 수취는 영업활동으로 분류하거나 투자·재무활동으로 분류할 수 있으며, 배당금 지급은 재무활동 또는 영업활동으로 분류할 수 있다. [FS-06]\n어느 쪽이든 매 기간 일관되게 분류해야 한다. [FS-06]\n법인세로 인한 현금흐름은 재무활동과 투자활동에 명백히 관련되지 않는 한 영업활동으로 분류한다. [FS-06]\n재무제표는 현금흐름 정보(현금흐름표)를 제외하고 발생기준 회계를 사용하여 작성한다. [FS-09]",
+      "citations": [
+        {
+          "id": "FS-06",
+          "title": "현금흐름표",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1007호 문단 6, 10~36",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "FS-09",
+          "title": "발생기준과 계속기업",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1001호 문단 25~28",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "S08",
+      "question": "배당금을 주면 왜 손익계산서에 비용으로 안 나와?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C4",
+      "confidence": 0.5,
+      "category_ok": 0,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "clarify"
+      ],
+      "tool_score": 0,
+      "expected_outcome": "answer",
+      "outcome": "clarify",
+      "outcome_ok": 0,
+      "evidence": [
+        "FS-07"
+      ],
+      "sections": [],
+      "retrieval_ok": 0,
+      "answer_score": 0,
+      "missing": [
+        "답할 수 있는데 되물음"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [],
+      "verification": null,
+      "answer": "[확인 필요] 질문이 어느 분야를 묻는지 분명하지 않아 답변 전에 확인이 필요합니다(판정 신뢰도 0.50).\n어느 관점의 설명이 필요한지 질문을 조금 더 구체적으로 적어 주세요.\n- 기업재무(C4): 화폐의 시간가치 관점\n- 재무제표(C2): 재무제표의 구성과 구조 관점",
+      "citations": [],
+      "diagnosis": [
+        "[판정] 'C4'(신뢰도 0.50)로 분류, 기대 C2",
+        "[도구] 답할 수 있는데 되물음 (신뢰도 0.50)",
+        "[답변] 필수 사실 누락: 답할 수 있는데 되물음"
+      ]
+    },
+    {
+      "id": "S09",
+      "question": "리스 회계에서 사용권자산은 몇 년에 걸쳐 감가상각해?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C1",
+      "confidence": 1.0,
+      "category_ok": 0,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "AP-07",
+        "AP-01",
+        "AP-02",
+        "FS-03"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '리스'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 세무회계(법인세 신고·세무조정), 원가·관리회계, 특정 업종 회계처리, 개별 기준서 세부 처리\n확인할 곳: 세무는 세무사, 원가·관리회계는 해당 교재, 개별 기준서는 K-IFRS 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "S10",
+      "question": "감사의견 한정 받으면 바로 상장폐지돼?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "DS-08",
+        "DS-03",
+        "DS-09",
+        "DS-01"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '상장폐지'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 리스·수익인식·금융상품·법인세 등 개별 기준서 세부, 특정 회사의 실제 공시 내용·실적, 한국거래소 상장규정에 따른 조치(관리종목 지정, 상장폐지 요건 등)\n확인할 곳: K-IFRS 기준서 원문, DART 원문 공시, 한국거래소 상장규정",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "A01",
+      "question": "ROE가 높으면 무조건 좋은 회사야? 듀폰분석으로 설명해줘",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-03"
+      ],
+      "sections": [
+        "RA-03",
+        "RA-04",
+        "RA-05",
+        "RA-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "듀폰분석은 ROE를 순이익률 × 총자산회전율 × 재무레버리지로 분해한다",
+        "높은 ROE가 부채(재무레버리지) 때문일 수 있어 ROE가 높다고 무조건 좋은 회사라고 단정할 수 없다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.265 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-03', 'RA-04']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "듀폰분석은 ROE를 세 요소로 분해한다. [RA-03]\nROE가 높다는 사실만으로 좋은 기업이라고 단정할 수 없다. [RA-03]\n유동비율이 높다고 무조건 좋은 것도 아니다. [RA-04]",
+      "citations": [
+        {
+          "id": "RA-03",
+          "title": "듀폰분석",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "RA-04",
+          "title": "유동성 비율",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 듀폰분석은 ROE를 순이익률 × 총자산회전율 × 재무레버리지로 분해한다",
+        "[답변] 필수 사실 누락: 높은 ROE가 부채(재무레버리지) 때문일 수 있어 ROE가 높다고 무조건 좋은 회사라고 단정할 수 없다"
+      ]
+    },
+    {
+      "id": "A02",
+      "question": "유동비율이 150%면 위험한 거야?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-01",
+        "RA-04"
+      ],
+      "sections": [
+        "RA-04",
+        "FS-02",
+        "RA-05",
+        "RA-09"
+      ],
+      "retrieval_ok": 0,
+      "answer_score": 0,
+      "missing": [
+        "업종·영업주기에 따라 적정 수준이 달라 동종 업계·과거 추세와 비교해서 판단해야 한다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.248 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-04']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "유동비율 = 유동자산 ÷ 유동부채 × 100 [RA-04]\n유동비율은 1년 안에 갚아야 할 부채를 1년 안에 현금화할 자산으로 얼마나 감당할 수 있는지를 본다. [RA-04]\n전통적으로 '유동비율 200% 이상, 당좌비율 100% 이상'이 경험적 기준으로 자주 언급되지만, 이는 법이나 회계기준이 정한 기준이 아니라 관행적인 참고치일 뿐이다. [RA-04]\n유동비율이 높다고 무조건 좋은 것도 아니다. [RA-04]\n재고자산이 과다하거나 현금이 수익을 내지 못하고 쌓여 있어도 유동비율은 높아진다. [RA-04]",
+      "citations": [
+        {
+          "id": "RA-04",
+          "title": "유동성 비율",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[근거] 필요한 섹션 ['RA-01']이 조립되지 않음 (조립: ['RA-04', 'FS-02', 'RA-05', 'RA-09'])",
+        "[답변] 필수 사실 누락: 업종·영업주기에 따라 적정 수준이 달라 동종 업계·과거 추세와 비교해서 판단해야 한다"
+      ]
+    },
+    {
+      "id": "A03",
+      "question": "현금전환주기가 뭐고 어떻게 계산해?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-06"
+      ],
+      "sections": [
+        "RA-06",
+        "RA-01",
+        "RA-07",
+        "FS-02"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "각 기간은 365 ÷ 해당 회전율로 구한다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.222 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-06']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "현금전환주기(CCC, Cash Conversion Cycle)는 원재료·상품에 현금을 지출한 뒤 판매대금을 현금으로 회수하기까지 걸리는 기간이다. [RA-06]\n현금전환주기 = 재고자산보유기간 + 매출채권회수기간 − 매입채무지급기간 [RA-06]\n현금전환주기가 짧을수록 운전자본에 묶이는 현금이 적다. [RA-06]",
+      "citations": [
+        {
+          "id": "RA-06",
+          "title": "활동성 비율과 현금전환주기",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 각 기간은 365 ÷ 해당 회전율로 구한다"
+      ]
+    },
+    {
+      "id": "A04",
+      "question": "ROA랑 ROE는 분모가 어떻게 달라?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-02"
+      ],
+      "sections": [
+        "RA-03",
+        "RA-02",
+        "RA-01",
+        "RA-09"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "ROA = 당기순이익 ÷ 평균총자산",
+        "ROE = 당기순이익 ÷ 평균자기자본"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.181 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-02', 'RA-03', 'RA-09']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "듀폰분석은 ROE를 세 요소로 분해한다. [RA-03]\n부채로 높아진 ROE는 재무위험이 함께 커진 것이다. [RA-03]\n자본이 매우 작거나 음수(자본잠식)인 경우 ROE는 왜곡되거나 해석할 수 없다. [RA-03]\n연결재무제표로 ROE를 계산할 때는 분자에 지배기업 소유주 귀속 당기순이익을, 분모에 지배기업 소유주지분을 써야 분자와 분모의 범위가 일치한다. [RA-02]\n분모가 0에 가깝거나 음수인 비율(자본잠식 기업의 부채비율·ROE, 적자 기업의 증가율)은 해석하지 않는다. [RA-09]",
+      "citations": [
+        {
+          "id": "RA-03",
+          "title": "듀폰분석",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "RA-02",
+          "title": "수익성 비율",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "RA-09",
+          "title": "비율분석의 함정",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: ROA = 당기순이익 ÷ 평균총자산",
+        "[답변] 필수 사실 누락: ROE = 당기순이익 ÷ 평균자기자본"
+      ]
+    },
+    {
+      "id": "A05",
+      "question": "당좌비율은 왜 재고자산을 빼고 계산해?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-04"
+      ],
+      "sections": [
+        "RA-04",
+        "RA-06",
+        "RA-09",
+        "RA-03"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.248 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-04', 'RA-06']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "당좌비율 = (유동자산 − 재고자산) ÷ 유동부채 × 100 [RA-04]\n재고자산이 과다하거나 현금이 수익을 내지 못하고 쌓여 있어도 유동비율은 높아진다. [RA-04]\n재고자산의 현금화 가능성이 낮은 기업은 당좌비율을 함께 본다. [RA-04]\n재고자산회전율 = 매출원가 ÷ 평균재고자산, 재고자산보유기간(일) = 365 ÷ 재고자산회전율 [RA-06]\n재고자산회전율은 매출액으로 계산하는 자료도 있으므로, 비교할 때 같은 정의를 쓰는지 확인한다. [RA-06]",
+      "citations": [
+        {
+          "id": "RA-04",
+          "title": "유동성 비율",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "RA-06",
+          "title": "활동성 비율과 현금전환주기",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "A06",
+      "question": "부채비율 공식이랑 자본잠식이 뭔지 알려줘",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-05"
+      ],
+      "sections": [
+        "RA-05",
+        "RA-09",
+        "RA-03",
+        "RA-04"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.283 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-03', 'RA-05', 'RA-09']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "부채비율 = 부채총계 ÷ 자본총계 × 100 [RA-05]\n자본잠식: 자본총계가 자본금보다 작으면 부분자본잠식, 자본총계가 0보다 작으면 완전자본잠식이라 한다. [RA-05]\n완전자본잠식 상태에서는 부채비율과 ROE를 의미 있게 해석할 수 없다. [RA-05]\n분모가 0에 가깝거나 음수인 비율(자본잠식 기업의 부채비율·ROE, 적자 기업의 증가율)은 해석하지 않는다. [RA-09]\n자본이 매우 작거나 음수(자본잠식)인 경우 ROE는 왜곡되거나 해석할 수 없다. [RA-03]",
+      "citations": [
+        {
+          "id": "RA-05",
+          "title": "레버리지(안정성) 비율",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "RA-09",
+          "title": "비율분석의 함정",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "RA-03",
+          "title": "듀폰분석",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "A07",
+      "question": "영업현금흐름이 당기순이익보다 계속 훨씬 낮으면 무슨 신호야?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C0",
+      "confidence": 0.6,
+      "category_ok": 0,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 0,
+      "expected_outcome": "answer",
+      "outcome": "abstain",
+      "outcome_ok": 0,
+      "evidence": [
+        "RA-08"
+      ],
+      "sections": [],
+      "retrieval_ok": 0,
+      "answer_score": 0,
+      "missing": [
+        "답할 수 있는데 보류"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": [
+        "[판정] 'C0'(신뢰도 0.60)로 분류, 기대 C3",
+        "[도구] 답할 수 있는데 보류 — ② 게이트 'category'에서 보류: C0(지원하지 않는 질문)",
+        "[답변] 필수 사실 누락: 답할 수 있는데 보류"
+      ]
+    },
+    {
+      "id": "A08",
+      "question": "전년에 영업적자였던 회사가 올해 흑자가 나면 영업이익증가율은 어떻게 표시해?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 0.5,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "clarify"
+      ],
+      "tool_score": 0,
+      "expected_outcome": "answer",
+      "outcome": "clarify",
+      "outcome_ok": 0,
+      "evidence": [
+        "RA-07"
+      ],
+      "sections": [],
+      "retrieval_ok": 0,
+      "answer_score": 0,
+      "missing": [
+        "답할 수 있는데 되물음"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [],
+      "verification": null,
+      "answer": "[확인 필요] 질문이 어느 분야를 묻는지 분명하지 않아 답변 전에 확인이 필요합니다(판정 신뢰도 0.50).\n어느 관점의 설명이 필요한지 질문을 조금 더 구체적으로 적어 주세요.\n- 재무분석(C3): 재무비율의 정의·계산·해석: 수익성 관점\n- 재무제표(C2): 재무제표의 구성과 구조 관점",
+      "citations": [],
+      "diagnosis": [
+        "[도구] 답할 수 있는데 되물음 (신뢰도 0.50)",
+        "[답변] 필수 사실 누락: 답할 수 있는데 되물음"
+      ]
+    },
+    {
+      "id": "A09",
+      "question": "반도체 업종 평균 부채비율은 몇 %야?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "RA-09",
+        "RA-01",
+        "RA-04",
+        "RA-05"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '업종 평균'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 특정 업종의 평균값, 특정 기업의 실제 비율 수치, 신용등급 기준\n확인할 곳: 한국은행 기업경영분석, 업종 리포트, 신용평가사 평가방법론",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "A10",
+      "question": "신용등급 A를 받으려면 부채비율을 몇 %로 맞춰야 해?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "RA-05",
+        "RA-04",
+        "RA-09",
+        "FS-02"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '신용등급'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 특정 업종의 평균값, 특정 기업의 실제 비율 수치, 신용등급 기준\n확인할 곳: 한국은행 기업경영분석, 업종 리포트, 신용평가사 평가방법론",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "F01",
+      "question": "PER이 낮으면 저평가된 거야? 적정 PER은 몇 배야?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "VA-06"
+      ],
+      "sections": [
+        "VA-06",
+        "CF-02",
+        "VA-08",
+        "VA-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.269 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-06']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "PER(주가수익비율) = 주가 ÷ 주당순이익(EPS) = 시가총액 ÷ 당기순이익 [VA-06]\nPER에는 보편적으로 '적정한' 배수가 없다. [VA-06]\n따라서 PER이 낮다는 사실만으로 저평가라고 판단할 수 없다. [VA-06]\n이익이 일시적으로 부풀었거나 성장이 둔화될 것으로 시장이 예상하는 경우에도 PER이 낮게 나타난다. [VA-06]\n당기순이익이 적자이면 PER은 의미가 없다. [VA-06]",
+      "citations": [
+        {
+          "id": "VA-06",
+          "title": "상대가치 멀티플",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "F02",
+      "question": "WACC 공식이랑, 부채비용에만 (1-t)를 곱하는 이유를 알려줘",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "VA-04"
+      ],
+      "sections": [
+        "VA-04",
+        "VA-03",
+        "CF-05",
+        "VA-02"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.340 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-03', 'VA-04']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "WACC = E ÷ (D + E) × Re + D ÷ (D + E) × Rd × (1 − t) [VA-04]\n부채비용에만 (1 − t)를 곱하는 이유는 이자비용이 과세소득 계산에서 비용으로 공제되어 법인세를 줄여 주기 때문이다(이자비용의 절세효과, tax shield). 배당은 세법상 비용으로 공제되지 않으므로 자기자본비용에는 (1 − t)를 곱하지 않는다. [VA-04]\n잔존가치(고든 성장모형) = 예측기간 다음 해의 FCFF ÷ (WACC − 영구성장률 g) [VA-03]\nFCFF는 채권자와 주주 모두에게 귀속되는 현금흐름이므로 WACC로 할인한다. [VA-03]\n잔존가치가 전체 기업가치에서 차지하는 비중이 큰 경우가 많아, WACC와 영구성장률 가정이 조금만 바뀌어도 결과가 크게 달라진다. [VA-03]",
+      "citations": [
+        {
+          "id": "VA-04",
+          "title": "가중평균자본비용(WACC)",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "VA-03",
+          "title": "할인현금흐름(DCF) 가치평가",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "F03",
+      "question": "100만원을 연 5% 복리로 2년 맡기면 얼마가 돼?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "VA-01"
+      ],
+      "sections": [
+        "VA-01",
+        "CF-01",
+        "CF-02",
+        "VA-08"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.284 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-01']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "예: 1,000,000원을 연 5% 복리로 2년 예치하면 FV = 1,000,000 × 1.05^2 = 1,102,500원이다. [VA-01]\n단리로 계산하면 1,100,000원이 되어 복리와 차이가 난다. [VA-01]",
+      "citations": [
+        {
+          "id": "VA-01",
+          "title": "화폐의 시간가치",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "F04",
+      "question": "NPV가 뭐고 어떤 기준으로 투자안을 채택해?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "CF-01"
+      ],
+      "sections": [
+        "CF-01",
+        "CF-02",
+        "VA-10",
+        "FS-04"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "NPV는 미래 현금흐름의 현재가치에서 초기투자액을 뺀 값이다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.277 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['CF-01', 'CF-02']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "의사결정 규칙: NPV가 0보다 크면 채택한다. [CF-01]\n서로 배타적인 투자안 중에서는 NPV가 가장 큰 안을 고른다. [CF-01]\nNPV가 0보다 크다는 것은 투자안이 자본비용을 넘는 수익을 내어 기업가치를 높인다는 뜻이다. [CF-01]\nIRR은 투자안의 NPV를 0으로 만드는 할인율이다. [CF-02]\n서로 배타적인 투자안을 비교할 때 투자 규모나 현금흐름 시점이 다르면 IRR과 NPV의 결론이 다를 수 있다. [CF-02]",
+      "citations": [
+        {
+          "id": "CF-01",
+          "title": "순현재가치(NPV)",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "CF-02",
+          "title": "내부수익률(IRR)",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: NPV는 미래 현금흐름의 현재가치에서 초기투자액을 뺀 값이다"
+      ]
+    },
+    {
+      "id": "F05",
+      "question": "초기투자 1000원, 1년 후 600원, 2년 후 600원, 자본비용 10%면 NPV는 얼마야?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "CF-01"
+      ],
+      "sections": [
+        "CF-01",
+        "CF-02",
+        "CF-03",
+        "VA-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.431 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['CF-01', 'CF-02', 'CF-03']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "NPV = Σ [CF_t ÷ (1 + r)^t] − 초기투자액 (r은 자본비용) [CF-01]\n예: 초기투자 1,000원, 1년 후 600원, 2년 후 600원, 자본비용 10%이면 현금흐름의 현재가치는 600 ÷ 1.1 + 600 ÷ 1.21 = 545.45 + 495.87 = 1,041.32원이고, NPV = 1,041.32 − 1,000 = 41.32원이다. [CF-01]\n예: CF-01의 투자안(초기투자 1,000원, 1년 후 600원, 2년 후 600원)의 IRR은 약 13.1%로, 자본비용 10%보다 크므로 채택한다. [CF-02]\n예: 초기투자 1,000원, 매년 600원이 들어오면 회수기간은 1 + 400 ÷ 600 = 약 1.67년이다. [CF-03]",
+      "citations": [
+        {
+          "id": "CF-01",
+          "title": "순현재가치(NPV)",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "CF-02",
+          "title": "내부수익률(IRR)",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "CF-03",
+          "title": "회수기간법",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "F06",
+      "question": "IRR이랑 NPV 결론이 다르면 뭘 따라야 해?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "CF-02"
+      ],
+      "sections": [
+        "CF-02",
+        "CF-01",
+        "VA-02",
+        "VA-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.383 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['CF-02']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "IRR은 투자안의 NPV를 0으로 만드는 할인율이다. [CF-02]\nIRR이 자본비용보다 크면 채택한다. [CF-02]\n서로 배타적인 투자안을 비교할 때 투자 규모나 현금흐름 시점이 다르면 IRR과 NPV의 결론이 다를 수 있다. [CF-02]\n이때는 NPV 기준을 따른다. [CF-02]\nIRR은 중간 현금흐름을 IRR로 재투자한다고 가정한다(NPV는 자본비용으로 재투자한다고 가정한다). [CF-02]",
+      "citations": [
+        {
+          "id": "CF-02",
+          "title": "내부수익률(IRR)",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "F07",
+      "question": "부채로 자금을 조달하면 좋은 점이랑 나쁜 점은?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "CF-04"
+      ],
+      "sections": [
+        "CF-04",
+        "VA-01",
+        "VA-09",
+        "CF-05"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "원리금 상환 의무가 있어 재무위험이 커진다"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.170 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['CF-04']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "기업은 타인자본(차입금, 회사채)이나 자기자본(유상증자, 이익의 내부 유보)으로 자금을 조달한다. [CF-04]\n부채 조달의 특징: 이자비용이 세법상 비용으로 공제되어 법인세를 줄인다(절세효과). 기존 주주의 지분이 희석되지 않는다. [CF-04]\n자기자본 조달의 특징: 상환 의무가 없다. [CF-04]\n자본조달순서이론(pecking order theory): 경영자와 투자자 사이의 정보비대칭 때문에 기업은 내부자금 → 부채 → 신주 발행 순서로 자금조달을 선호한다는 이론이다. [CF-04]",
+      "citations": [
+        {
+          "id": "CF-04",
+          "title": "자금조달 원천: 부채와 자기자본",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자금조달)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 원리금 상환 의무가 있어 재무위험이 커진다"
+      ]
+    },
+    {
+      "id": "F08",
+      "question": "MM 이론에서 법인세를 고려하면 부채가 기업가치에 어떤 영향을 줘?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "CF-05"
+      ],
+      "sections": [
+        "CF-05",
+        "CF-04",
+        "VA-03",
+        "VA-04"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 0,
+      "missing": [
+        "부채기업 가치 = 무부채기업 가치 + 법인세율 × 부채 (V_L = V_U + t × D)"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.325 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['CF-05']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "MM 무관련 이론(1958, 법인세가 없는 완전자본시장 가정): 자본구조는 기업가치에 영향을 주지 않는다(명제 I). 부채비율이 높아지면 자기자본비용이 재무위험만큼 높아진다(명제 II). [CF-05]\n법인세를 고려한 MM 이론(1963): 이자비용의 절세효과 때문에 부채를 쓸수록 기업가치가 커진다. [CF-05]",
+      "citations": [
+        {
+          "id": "CF-05",
+          "title": "자본구조 이론: MM 이론과 상충이론",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "Modigliani & Miller(1958, 1963); 기업재무 교재(자본구조)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[답변] 필수 사실 누락: 부채기업 가치 = 무부채기업 가치 + 법인세율 × 부채 (V_L = V_U + t × D)"
+      ]
+    },
+    {
+      "id": "F09",
+      "question": "요즘 한국 시장위험프리미엄 몇 % 쓰면 돼?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "VA-05",
+        "VA-09",
+        "VA-04",
+        "VA-06"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '요즘 한국 시장위험프리미엄 몇 %'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 특정 시점의 시장 수치(무위험이자율, 시장위험프리미엄, 시장금리, 업종 평균 멀티플), 특정 기업의 실제 투자안 평가, 특정 종목의 목표주가·매수·매도 판단\n확인할 곳: 평가 기준일의 시장 자료(한국공인회계사회, 한국은행 등) 또는 전문가",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "F10",
+      "question": "우리 회사 신규 공장 투자안 할지 말지 NPV로 판단해줘",
+      "expected_category": [
+        "C4",
+        "C0"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "CF-01",
+        "CF-02",
+        "VA-10",
+        "CF-04"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '우리 회사'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 특정 시점의 시장 수치(무위험이자율, 시장위험프리미엄, 시장금리, 업종 평균 멀티플), 특정 기업의 실제 투자안 평가, 특정 종목의 목표주가·매수·매도 판단\n확인할 곳: 평가 기준일의 시장 자료(한국공인회계사회, 한국은행 등) 또는 전문가",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U01",
+      "question": "삼성전자 지금 사도 될까?",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U02",
+      "question": "주식 배당소득이 얼마 넘으면 종합소득세에 합산돼?",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U03",
+      "question": "카카오 2025년 영업이익 얼마였어?",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C2",
+      "confidence": 1.0,
+      "category_ok": 0,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "FS-04",
+        "FS-06",
+        "DS-05",
+        "FS-09"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '2025년 영업이익'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 리스·수익인식·금융상품·법인세 등 개별 기준서 세부, 특정 회사의 실제 공시 내용·실적, 한국거래소 상장규정에 따른 조치(관리종목 지정, 상장폐지 요건 등)\n확인할 곳: K-IFRS 기준서 원문, DART 원문 공시, 한국거래소 상장규정",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U04",
+      "question": "엑셀에서 VLOOKUP 함수 쓰는 법 알려줘",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U05",
+      "question": "미국이 금리를 내리면 코스피가 오를까?",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U06",
+      "question": "연말정산 의료비 세액공제 한도가 얼마야?",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "U07",
+      "question": "파이썬으로 웹 크롤링 하는 법 알려줘",
+      "expected_category": [
+        "C0"
+      ],
+      "category": "C0",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "Q01",
+      "question": "레버리지가 뭐야?",
+      "expected_category": [
+        "C3",
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 0.5,
+      "category_ok": 1,
+      "expected_tools": [
+        "clarify"
+      ],
+      "tools_called": [
+        "clarify"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "clarify",
+      "outcome": "clarify",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [],
+      "verification": null,
+      "answer": "[확인 필요] 질문이 어느 분야를 묻는지 분명하지 않아 답변 전에 확인이 필요합니다(판정 신뢰도 0.50).\n어느 관점의 설명이 필요한지 질문을 조금 더 구체적으로 적어 주세요.\n- 기업재무(C4): 화폐의 시간가치 관점\n- 재무분석(C3): 재무비율의 정의·계산·해석: 수익성 관점",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "Q02",
+      "question": "이자는 어떻게 처리해?",
+      "expected_category": [
+        "C1",
+        "C2"
+      ],
+      "category": "C0",
+      "confidence": 0.6,
+      "category_ok": 0,
+      "expected_tools": [
+        "clarify"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 0,
+      "expected_outcome": "clarify",
+      "outcome": "abstain",
+      "outcome_ok": 0,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 0,
+      "missing": [
+        "기대 clarify, 실제 abstain"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": [
+        "[판정] 'C0'(신뢰도 0.60)로 분류, 기대 ['C1', 'C2']",
+        "[도구] 되물어야 하는데 ['abstain'] (신뢰도 0.60)",
+        "[답변] 필수 사실 누락: 기대 clarify, 실제 abstain"
+      ]
+    },
+    {
+      "id": "Q03",
+      "question": "배당은 어떻게 봐야 해?",
+      "expected_category": [
+        "C2",
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "clarify"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 0,
+      "expected_outcome": "clarify",
+      "outcome": "answer",
+      "outcome_ok": 0,
+      "evidence": [],
+      "sections": [
+        "VA-08",
+        "VA-10",
+        "VA-04",
+        "VA-05"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 0,
+      "missing": [
+        "되물어야 하는데 답함"
+      ],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.097 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-04', 'VA-08', 'VA-10']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "배당성향 = 배당금 총액 ÷ 당기순이익 × 100 [VA-08]\n배당수익률 = 주당배당금 ÷ 주가 × 100 [VA-08]\n고든 성장 배당할인모형: P0 = D1 ÷ (r − g). D1은 내년 예상 주당배당금, r은 자기자본비용, g는 배당의 영구성장률이며 r > g여야 한다. [VA-08]\n평가 결과를 볼 때는 어떤 가정을 썼는지, 가정을 바꾸면 결과가 얼마나 변하는지를 함께 봐야 한다. [VA-10]\n부채비용에만 (1 − t)를 곱하는 이유는 이자비용이 과세소득 계산에서 비용으로 공제되어 법인세를 줄여 주기 때문이다(이자비용의 절세효과, tax shield). 배당은 세법상 비용으로 공제되지 않으므로 자기자본비용에는 (1 − t)를 곱하지 않는다. [VA-04]",
+      "citations": [
+        {
+          "id": "VA-08",
+          "title": "배당 지표와 배당할인모형",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "VA-10",
+          "title": "가치평가 결과를 읽을 때의 주의점",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "VA-04",
+          "title": "가중평균자본비용(WACC)",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": [
+        "[도구] 되물어야 하는데 ['lookup_corpfin'] (신뢰도 1.00)",
+        "[답변] 필수 사실 누락: 되물어야 하는데 답함"
+      ]
+    }
+  ]
+}

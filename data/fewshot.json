@@ -1,21 +1,22 @@
 {
-  "_note": "프롬프트 예시 전용. 평가셋(goldenset.json)과 질문이 겹치지 않는다. evaluate.py가 겹침 여부를 검사한다.",
+  "_note": "프롬프트 예시 전용. 평가셋(goldenset.json)·미공개셋(holdout.json)과 질문이 겹치지 않는다. evaluate.py가 겹침 여부를 검사한다.",
   "router": [
-    {"question": "재무상태표의 자본은 어떤 항목들로 구성돼?", "category": "fs"},
-    {"question": "간접법 현금흐름표는 어떻게 만들어?", "category": "fs"},
-    {"question": "배당은 왜 비용으로 안 잡혀?", "category": "fs"},
-    {"question": "이자보상배율이 1보다 작으면 무슨 뜻이야?", "category": "ratio"},
-    {"question": "재고자산회전율 계산법 알려줘", "category": "ratio"},
-    {"question": "ROA는 어떻게 구해?", "category": "ratio"},
-    {"question": "주요사항보고서는 언제까지 내야 해?", "category": "disclosure"},
-    {"question": "핵심감사사항이 뭐야?", "category": "disclosure"},
-    {"question": "조회공시가 뭐야?", "category": "disclosure"},
-    {"question": "금리가 오르면 채권 가격은 어떻게 돼?", "category": "valuation"},
-    {"question": "EV/EBITDA의 EV는 어떻게 구해?", "category": "valuation"},
-    {"question": "희석주당이익이 뭐야?", "category": "valuation"},
-    {"question": "비트코인 내년에 오를까?", "category": "other"},
-    {"question": "부가세 신고 기한이 언제야?", "category": "other"},
-    {"question": "오늘 점심 뭐 먹지?", "category": "other"}
+    {"question": "전기는 회계에서 무슨 뜻이야?", "category": "C1", "confidence": 0.9, "alternative": null, "evidence_types": ["정의", "절차"]},
+    {"question": "미지급 이자는 결산 때 어떻게 분개해?", "category": "C1", "confidence": 0.9, "alternative": null, "evidence_types": ["절차", "예시"]},
+    {"question": "회계상 거래가 아닌 예를 들어줘", "category": "C1", "confidence": 0.85, "alternative": null, "evidence_types": ["정의", "예시"]},
+    {"question": "재무상태표의 자본은 어떤 항목으로 구성돼?", "category": "C2", "confidence": 0.9, "alternative": null, "evidence_types": ["분류 기준"]},
+    {"question": "간접법 현금흐름표는 어떻게 만들어?", "category": "C2", "confidence": 0.9, "alternative": null, "evidence_types": ["절차"]},
+    {"question": "주요사항보고서는 언제까지 내야 해?", "category": "C2", "confidence": 0.9, "alternative": null, "evidence_types": ["규정·기한"]},
+    {"question": "핵심감사사항이 뭐야?", "category": "C2", "confidence": 0.85, "alternative": null, "evidence_types": ["정의"]},
+    {"question": "이자보상배율이 1보다 작으면 무슨 뜻이야?", "category": "C3", "confidence": 0.95, "alternative": null, "evidence_types": ["공식·계산", "해석·한계"]},
+    {"question": "재고자산회전율 계산법 알려줘", "category": "C3", "confidence": 0.95, "alternative": null, "evidence_types": ["공식·계산"]},
+    {"question": "금리가 오르면 채권 가격은 어떻게 돼?", "category": "C4", "confidence": 0.9, "alternative": null, "evidence_types": ["해석·한계"]},
+    {"question": "EV/EBITDA의 EV는 어떻게 구해?", "category": "C4", "confidence": 0.9, "alternative": null, "evidence_types": ["공식·계산"]},
+    {"question": "회수기간법의 단점은?", "category": "C4", "confidence": 0.9, "alternative": null, "evidence_types": ["해석·한계"]},
+    {"question": "부채는 많을수록 나빠?", "category": "C3", "confidence": 0.5, "alternative": "C4", "evidence_types": ["해석·한계"]},
+    {"question": "비트코인 내년에 오를까?", "category": "C0", "confidence": 0.95, "alternative": null, "evidence_types": []},
+    {"question": "부가세 신고 기한이 언제야?", "category": "C0", "confidence": 0.9, "alternative": null, "evidence_types": []},
+    {"question": "오늘 점심 뭐 먹지?", "category": "C0", "confidence": 1.0, "alternative": null, "evidence_types": []}
   ],
   "sufficiency": [
     {
@@ -33,6 +34,10 @@
     {
       "question": "이자보상배율이 1보다 작으면 무슨 뜻이야?",
       "answer": "이자보상배율은 영업이익을 이자비용으로 나눈 값입니다 [RA-05]. 1 미만이면 영업이익으로 이자비용도 감당하지 못한다는 뜻입니다 [RA-05]."
+    },
+    {
+      "question": "매년 말 100원을 영원히 받는 영구연금의 현재가치는? 할인율은 5%야",
+      "answer": "영구연금의 현재가치는 PV = C ÷ r로 구합니다 [VA-02]. 100 ÷ 0.05 = 2,000원입니다 [VA-02]."
     }
   ]
 }

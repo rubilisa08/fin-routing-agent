@@ -1,6 +1,9 @@
-"""파이프라인: ① 카테고리 판정 → ② 근거 조립(넘기기 판단) → ③ 근거만으로 답변 → ④ 검증.
+"""FinRoute AI 파이프라인.
 
-LangGraph StateGraph로 잇는다. 검증 실패 시 한 번 다시 답하고, 그래도 실패하면 넘긴다.
+① 카테고리 판정 → (신뢰도 점검: 낮으면 되묻기) → ② 근거 조립(근거 부족이면 보류) → ③ 근거만으로 답변 → ④ 검증
+
+LangGraph StateGraph로 잇는다. 검증 실패 시 한 번 다시 답하고, 그래도 실패하면 보류한다.
+카테고리를 고르는 일(classify)과 되묻기·보류 판단(check_confidence, gather)은 서로 다른 노드다.
 """
 from __future__ import annotations
 
@@ -9,10 +12,10 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from context import CATEGORIES, HANDOFF, Section, Settings, assemble, similarity
+from context import ABSTAIN, CATEGORIES, CLARIFY, Section, Settings, assemble, load_sections, similarity
 from llm import LLM
 from prompts import OFFLINE_KEYWORDS, OFFLINE_OTHER_SIGNALS, answer_prompt, router_prompt
-from verify import feedback, verify
+from verify import citations, feedback, verify
 
 MAX_ANSWER_ATTEMPTS = 2
 
@@ -20,17 +23,22 @@ MAX_ANSWER_ATTEMPTS = 2
 class AgentState(TypedDict, total=False):
     question: str
     category: str                # ① 판정 결과
+    confidence: float            # ① 판정 신뢰도(0~1)
+    alternative: str | None      # ① 두 번째 후보 카테고리
+    evidence_types: list[str]    # ① 필요한 근거 유형
     category_reason: str
     tool: str | None             # ② 조회한 근거 도구
     sections: list[Section]      # ② 프롬프트에 넣은 근거 섹션
     scores: dict[str, float]     # ② 카테고리 안 섹션별 유사도
-    gate: list[dict]             # ② 넘기기 판단 기록
+    gate: list[dict]             # ② 보류 판단 기록
     sufficient: bool
     handoff_reason: str
-    answer: str                  # ③
+    answer: str                  # ③ 생성된 답변
     attempts: int
-    verification: dict           # ④
-    status: str                  # "answered" | "handoff"
+    failed_drafts: list[dict]    # ④에서 걸러진 답변 초안과 실패 사유
+    verification: dict           # ④ 마지막 검증 결과
+    citations: list[dict]        # 답변이 인용한 근거의 출처(코드가 만든다)
+    status: str                  # "answered" | "abstained" | "clarify"
     tools_called: list[str]      # 최종적으로 답에 쓴 도구 집합 (채점 대상)
     trace: list[str]
 
@@ -38,22 +46,24 @@ class AgentState(TypedDict, total=False):
 # ---------------------------------------------------------------------------
 # offline(키 없음) 대체 구현: 키워드 분류 + 추출형 답변
 # ---------------------------------------------------------------------------
-def offline_classify(question: str) -> tuple[str, str]:
+def offline_classify(question: str) -> dict:
     q = question.lower()
     if any(re.search(p, q) for p in OFFLINE_OTHER_SIGNALS):
-        return "other", "범위 밖 신호 키워드"
+        return {"category": "C0", "confidence": 0.9, "alternative": None, "reason": "범위 밖 신호 키워드"}
     hits = {k: sum(1 for w in words if w.lower() in q) for k, words in OFFLINE_KEYWORDS.items()}
-    best = max(hits.values())
-    if best == 0:
-        return "other", "어느 분야 키워드도 없음"
-    tied = [k for k, v in hits.items() if v == best]
-    if len(tied) > 1:  # 동점이면 각 카테고리 근거와의 유사도로 가른다
-        from context import load_sections
-
+    total = sum(hits.values())
+    if total == 0:
+        return {"category": "C0", "confidence": 0.6, "alternative": None, "reason": "어느 분야 키워드도 없음"}
+    ranked = sorted(hits, key=lambda k: -hits[k])
+    best, second = ranked[0], ranked[1]
+    if hits[best] == hits[second]:  # 동점이면 각 카테고리 근거와의 유사도로 순서를 정한다
         secs = load_sections()
-        sims = {k: max(similarity(question, [secs[s].body for s in CATEGORIES[k]["sections"]])) for k in tied}
-        tied = [max(sims, key=sims.get)]
-    return tied[0], f"키워드 일치 {hits}"
+        sims = {k: max(similarity(question, [secs[s].body for s in CATEGORIES[k]["sections"]])) for k in (best, second)}
+        best, second = sorted((best, second), key=lambda k: -sims[k])
+    return {
+        "category": best, "confidence": round(hits[best] / total, 2),
+        "alternative": second if hits[second] else None, "reason": f"키워드 일치 {hits}",
+    }
 
 
 def offline_answer(question: str, sections: list[Section], max_sentences: int = 5, min_ratio: float = 0.35) -> str:
@@ -81,19 +91,40 @@ def build_graph(llm: LLM, settings: Settings):
         if llm.online:
             system, user = router_prompt(q, CATEGORIES)
             out = llm.json(system, user)
-            cat = out.get("category", "other")
-            cat = cat if cat in CATEGORIES else "other"
-            reason = out.get("reason", "")
         else:
-            cat, reason = offline_classify(q)
-        return {"category": cat, "category_reason": reason, "trace": state.get("trace", []) + [f"① 판정: {cat}"]}
+            out = offline_classify(q)
+        cat = out.get("category") if out.get("category") in CATEGORIES else "C0"
+        alt = out.get("alternative") if out.get("alternative") in CATEGORIES and out.get("alternative") != cat else None
+        try:
+            conf = max(0.0, min(1.0, float(out.get("confidence", 0))))
+        except (TypeError, ValueError):
+            conf = 0.0
+        return {
+            "category": cat, "confidence": conf, "alternative": alt,
+            "evidence_types": out.get("evidence_types") or [], "category_reason": out.get("reason", ""),
+            "trace": state.get("trace", []) + [f"① 판정: {cat} (신뢰도 {conf:.2f})"],
+        }
+
+    def check_confidence(state: AgentState) -> AgentState:
+        # 판정과 분리된 판단: 신뢰도가 임계값보다 낮으면 되묻는다. C0은 되묻지 않고 ②에서 보류한다.
+        low = state["category"] != "C0" and state["confidence"] < settings.confidence_threshold
+        note = f"신뢰도 {state['confidence']:.2f} {'<' if low else '≥'} 임계값 {settings.confidence_threshold}"
+        return {"trace": state["trace"] + [f"신뢰도 점검: {note} → {'되묻기' if low else '통과'}"]}
+
+    def clarify(state: AgentState) -> AgentState:
+        options = [state["category"]] + ([state["alternative"]] if state.get("alternative") else [])
+        lines = "\n".join(f"- {CATEGORIES[k]['name']}({k}): {CATEGORIES[k]['focus']}" for k in options)
+        text = ("[확인 필요] 질문이 어느 분야를 묻는지 분명하지 않아 답변 전에 확인이 필요합니다"
+                f"(판정 신뢰도 {state['confidence']:.2f}).\n어느 관점의 설명이 필요한지 질문을 조금 더 구체적으로 적어 주세요.\n{lines}")
+        return {"status": "clarify", "answer": text, "tools_called": [CLARIFY], "citations": [],
+                "trace": state["trace"] + ["→ 되묻기"]}
 
     def gather(state: AgentState) -> AgentState:
         asm = assemble(state["question"], state["category"], settings, llm)
-        msg = f"② 근거 조립: {asm.tool or '-'} → {[s.id for s in asm.sections]} / {'충분' if asm.sufficient else '넘김'}"
+        msg = f"② 근거 조립: {asm.tool or '-'} → {[s.id for s in asm.sections]} / {'충분' if asm.sufficient else '보류'}"
         return {
             "tool": asm.tool, "sections": asm.sections, "scores": asm.scores, "gate": asm.gate,
-            "sufficient": asm.sufficient, "handoff_reason": asm.handoff_reason, "attempts": 0,
+            "sufficient": asm.sufficient, "handoff_reason": asm.handoff_reason, "attempts": 0, "failed_drafts": [],
             "trace": state["trace"] + [msg],
         }
 
@@ -109,41 +140,52 @@ def build_graph(llm: LLM, settings: Settings):
         return {"answer": text, "attempts": n, "trace": state["trace"] + [f"③ 답변 생성 ({n}회차)"]}
 
     def check(state: AgentState) -> AgentState:
-        result = verify(state["answer"], state["sections"], state["question"])
-        return {"verification": result, "trace": state["trace"] + [f"④ 검증: {'통과' if result['passed'] else '실패'}"]}
+        result = verify(state["answer"], state["sections"], state["question"], state["category"])
+        failed = state.get("failed_drafts", [])
+        if not result["passed"]:
+            failed = failed + [{"answer": state["answer"], "problems": feedback(result)}]
+        return {"verification": result, "failed_drafts": failed,
+                "trace": state["trace"] + [f"④ 검증: {'통과' if result['passed'] else '실패'}"]}
 
-    def handoff(state: AgentState) -> AgentState:
+    def abstain(state: AgentState) -> AgentState:
         cat = CATEGORIES[state["category"]]
         reason = state.get("handoff_reason") or "근거가 부족합니다."
         if state.get("verification") and not state["verification"]["passed"]:
             # 실패 내용(근거 밖 수치·용어)은 지어낸 내용 자체이므로 사용자 문구에 넣지 않는다. 화면의 ④ 검증 패널에만 보인다.
             reason = "근거만으로 검증을 통과하는 답변을 만들지 못했습니다."
-        text = f"[넘김] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: {reason}\n확인할 곳: {cat['handoff_to']}"
-        return {"status": "handoff", "answer": text, "handoff_reason": reason, "tools_called": [HANDOFF],
-                "trace": state["trace"] + ["→ 넘김"]}
+        text = f"[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: {reason}\n확인할 곳: {cat['handoff_to']}"
+        return {"status": "abstained", "answer": text, "handoff_reason": reason, "tools_called": [ABSTAIN],
+                "citations": [], "trace": state["trace"] + ["→ 보류"]}
 
     def finalize(state: AgentState) -> AgentState:
-        return {"status": "answered", "tools_called": [state["tool"]], "trace": state["trace"] + ["→ 답변 완료"]}
+        return {"status": "answered", "tools_called": [state["tool"]], "citations": citations(state["answer"]),
+                "trace": state["trace"] + ["→ 답변 완료"]}
+
+    def after_confidence(state: AgentState) -> str:
+        low = state["category"] != "C0" and state["confidence"] < settings.confidence_threshold
+        return "clarify" if low else "gather"
 
     def after_gather(state: AgentState) -> str:
-        return "answer" if state["sufficient"] else "handoff"
+        return "answer" if state["sufficient"] else "abstain"
 
     def after_check(state: AgentState) -> str:
         if state["verification"]["passed"]:
             return "finalize"
-        return "answer" if state["attempts"] < MAX_ANSWER_ATTEMPTS and llm.online else "handoff"
+        return "answer" if state["attempts"] < MAX_ANSWER_ATTEMPTS and llm.online else "abstain"
 
     g = StateGraph(AgentState)
-    for name, fn in [("classify", classify), ("gather", gather), ("answer", answer),
-                     ("verify", check), ("handoff", handoff), ("finalize", finalize)]:
+    for name, fn in [("classify", classify), ("check_confidence", check_confidence), ("clarify", clarify),
+                     ("gather", gather), ("answer", answer), ("verify", check), ("abstain", abstain),
+                     ("finalize", finalize)]:
         g.add_node(name, fn)
     g.add_edge(START, "classify")
-    g.add_edge("classify", "gather")
-    g.add_conditional_edges("gather", after_gather, {"answer": "answer", "handoff": "handoff"})
+    g.add_edge("classify", "check_confidence")
+    g.add_conditional_edges("check_confidence", after_confidence, {"clarify": "clarify", "gather": "gather"})
+    g.add_conditional_edges("gather", after_gather, {"answer": "answer", "abstain": "abstain"})
     g.add_edge("answer", "verify")
-    g.add_conditional_edges("verify", after_check, {"finalize": "finalize", "answer": "answer", "handoff": "handoff"})
-    g.add_edge("handoff", END)
-    g.add_edge("finalize", END)
+    g.add_conditional_edges("verify", after_check, {"finalize": "finalize", "answer": "answer", "abstain": "abstain"})
+    for end in ("clarify", "abstain", "finalize"):
+        g.add_edge(end, END)
     return g.compile()
 
 
@@ -161,12 +203,13 @@ if __name__ == "__main__":
     import sys
 
     sys.stdout.reconfigure(encoding="utf-8")
-
     agent = Agent()
     q = " ".join(sys.argv[1:]) or "현금전환주기가 뭐야?"
     out = agent.run(q)
     print(f"[{agent.llm.provider}] " + " | ".join(out["trace"]))
     print(out["answer"])
+    for c in out.get("citations", []):
+        print(f"  출처 [{c['id']}] {c['doc']} · {c['title']} — {c['source']}")
     if out.get("verification"):
         for c in out["verification"]["checks"]:
             print(("  ✓ " if c["passed"] else "  ✗ ") + f"{c['name']}: {c['detail']}")
