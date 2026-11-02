@@ -15,7 +15,7 @@ from datetime import datetime
 from pathlib import Path
 
 from context import CATEGORIES, HANDOFF, Settings, similarity
-from llm import LLM, resolve_provider
+from llm import LLM, QuotaExhausted, resolve_provider
 from prompts import fewshot, judge_prompt
 
 ROOT = Path(__file__).parent
@@ -159,7 +159,13 @@ def run_eval(args) -> None:
 
     records = []
     for it in items:
-        out = agent.run(it["question"])
+        try:
+            out = agent.run(it["question"])
+        except QuotaExhausted as e:
+            # 지금까지의 호출은 .llm_cache/에 남아 있으므로 내일 같은 명령을 다시 실행하면 이어서 진행된다
+            print(f"\n⏸ {e}\n{len(records)}/{len(items)}문항까지 진행. 같은 명령을 다시 실행하면 이어서 합니다 "
+                  f"(API 호출 {agent.llm.api_calls}회, 캐시 {agent.llm.cache_hits}회).")
+            return
         tool_ok = int(sorted(out["tools_called"]) == sorted(it["expected_tools"]))
         grade = grade_answer(it, out["answer"], grader, judge)
         rec = {
@@ -185,9 +191,11 @@ def run_eval(args) -> None:
         "provider": agent.llm.provider, "model": agent.llm.model, "grader": grader,
         "settings": settings.as_dict(), "n": n,
         "tool_score": tool / n, "answer_score": ans / n, "router_accuracy": route / n,
+        "api_calls": agent.llm.api_calls if agent.llm.online else 0,
+        "cache_hits": agent.llm.cache_hits if agent.llm.online else 0,
     }
     print(f"\n도구 호출 적절성 {tool}/{n} = {tool / n:.0%} | 답변 적절성 {ans}/{n} = {ans / n:.0%} "
-          f"| (참고) ① 판정 정확도 {route}/{n}")
+          f"| (참고) ① 판정 정확도 {route}/{n} | API 호출 {summary['api_calls']}회, 캐시 {summary['cache_hits']}회")
 
     RESULTS.mkdir(exist_ok=True)
     stem = f"run_{datetime.now():%Y%m%d_%H%M%S}_{args.label}"
