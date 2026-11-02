@@ -10,6 +10,7 @@ import streamlit as st
 
 from context import CATEGORIES, Settings, load_sections
 from llm import resolve_provider
+from verify import CITE_RE, ID_RE
 
 ROOT = Path(__file__).parent
 RESULTS = ROOT / "results"
@@ -37,7 +38,7 @@ def get_agent(provider: str, knobs: tuple):
 
 
 def cite_badges(text: str) -> str:
-    return re.sub(r"\[([A-Z]{2}-\d{2})\]", r" `\1`", text)
+    return CITE_RE.sub(lambda m: " " + " ".join(f"`{sid}`" for sid in ID_RE.findall(m.group(0))), text)
 
 
 # ---------------------------------------------------------------------------

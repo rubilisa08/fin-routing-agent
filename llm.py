@@ -64,7 +64,7 @@ class LLM:
         elif self.provider == "openai":
             from openai import OpenAI
 
-            self.model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+            self.model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
             self._client = OpenAI()
         elif self.provider == "offline":
             self.model = "rule-based"

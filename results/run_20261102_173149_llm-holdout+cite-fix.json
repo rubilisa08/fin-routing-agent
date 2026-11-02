@@ -1,0 +1,885 @@
+{
+  "summary": {
+    "label": "llm-holdout+cite-fix",
+    "time": "2026-11-02 17:31",
+    "provider": "openai",
+    "model": "gpt-4.1-mini",
+    "grader": "llm",
+    "settings": {
+      "top_k": 4,
+      "min_similarity": 0.05,
+      "confidence_threshold": 0.75,
+      "use_scope_rules": true,
+      "use_term_coverage": true,
+      "use_llm_gate": true
+    },
+    "n": 10,
+    "data": "holdout.json",
+    "tool_score": 1.0,
+    "answer_score": 1.0,
+    "router_accuracy": 1.0,
+    "retrieval_relevance": 1.0,
+    "answer_accuracy": 1.0,
+    "unsupported_rate": 0.0,
+    "abstain_accuracy": 1.0,
+    "drafts_caught_by_verifier": 1,
+    "api_calls": 1,
+    "cache_hits": 31
+  },
+  "records": [
+    {
+      "id": "H01",
+      "question": "자본변동표에는 어떤 내용이 들어가?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 0.95,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "FS-07"
+      ],
+      "sections": [
+        "FS-07"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "FS-07에 자본변동표에 포함되는 내용이 구체적으로 명시되어 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-07']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "자본변동표에는 일정 기간 동안 자본의 각 구성요소 변동 내용이 들어갑니다. 구체적으로는 해당 기간의 총포괄손익(지배기업 소유주와 비지배지분에 귀속되는 금액 구분), 회계정책의 소급 적용이나 소급 재작성 영향, 자본 각 구성요소별 기초와 기말 장부금액 조정내역이 포함됩니다. 조정내역에는 당기순손익, 기타포괄손익, 소유주와의 거래(출자, 배당 등), 지배력을 상실하지 않는 종속기업 소유지분 변동이 포함됩니다. 배당은 비용이 아니므로 포괄손익계산서가 아니라 자본변동표에서 이익잉여금 감소로 나타납니다 [FS-07].",
+      "citations": [
+        {
+          "id": "FS-07",
+          "title": "자본변동표",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1001호 문단 106~110",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "H02",
+      "question": "영업이익은 어떻게 계산해?",
+      "expected_category": [
+        "C2",
+        "C3"
+      ],
+      "category": "C2",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "FS-04"
+      ],
+      "sections": [
+        "FS-04"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "FS-04에 영업이익 계산 방법인 매출액에서 매출원가와 판매비와관리비를 차감하여 계산한다고 명시되어 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-04']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "영업이익은 매출액에서 매출원가와 판매비와관리비를 차감하여 계산합니다 [FS-04]. 포괄손익계산서 본문에 구분하여 표시하도록 한국채택국제회계기준에서 요구하고 있습니다 [FS-04]. 비용은 성격별 또는 기능별로 분류하여 표시할 수 있으며, 기능별 분류 시 비용의 성격에 대한 추가 정보를 주석에 공시합니다 [FS-04].",
+      "citations": [
+        {
+          "id": "FS-04",
+          "title": "포괄손익계산서와 영업이익",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1001호 문단 81A~105 및 영업이익 표시에 관한 한국 추가 문단",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "H03",
+      "question": "총자산회전율은 어떻게 계산해?",
+      "expected_category": [
+        "C3"
+      ],
+      "category": "C3",
+      "confidence": 0.95,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_analysis"
+      ],
+      "tools_called": [
+        "lookup_analysis"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "RA-06"
+      ],
+      "sections": [
+        "RA-06"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "RA-06에 총자산회전율의 계산식이 명확히 제시되어 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-06']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C3 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "총자산회전율은 매출액을 평균총자산으로 나누어 계산합니다. 즉, 총자산회전율 = 매출액 ÷ 평균총자산입니다 [RA-06].",
+      "citations": [
+        {
+          "id": "RA-06",
+          "title": "활동성 비율과 현금전환주기",
+          "doc": "재무비율 분석 학습노트",
+          "source": "재무제표분석 교재 공통 정의",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "H04",
+      "question": "이연법인세부채는 언제 생겨?",
+      "expected_category": [
+        "C2",
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "AP-07",
+        "FS-03",
+        "AP-08",
+        "AP-02"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '이연법인세'"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 세무회계(법인세 신고·세무조정), 원가·관리회계, 특정 업종 회계처리, 개별 기준서 세부 처리\n확인할 곳: 세무는 세무사, 원가·관리회계는 해당 교재, 개별 기준서는 K-IFRS 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H05",
+      "question": "수정후시산표는 언제 만들어?",
+      "expected_category": [
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_principles"
+      ],
+      "tools_called": [
+        "lookup_principles"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "AP-05"
+      ],
+      "sections": [
+        "AP-05"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 1,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "AP-05에 회계순환과정 순서에 수정후시산표 작성 시점이 명확히 나와 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['AP-05']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C1 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "수정후시산표는 결산정리분개(수정분개)를 한 후에 작성합니다 [AP-05]. 즉, 수정전시산표 작성 → 결산정리분개 → 수정후시산표 작성 순서로 진행됩니다 [AP-05]. 이 과정에서 수정분개를 반영하여 계정 잔액을 다시 점검하는 역할을 합니다 [AP-05].",
+      "citations": [
+        {
+          "id": "AP-05",
+          "title": "회계순환과정과 시산표",
+          "doc": "회계원리 학습노트",
+          "source": "회계원리 교재",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "H06",
+      "question": "적정의견인데 계속기업 불확실성 문단이 붙어 있으면 무슨 뜻이야?",
+      "expected_category": [
+        "C2"
+      ],
+      "category": "C2",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_statements"
+      ],
+      "tools_called": [
+        "lookup_statements"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "DS-09"
+      ],
+      "sections": [
+        "DS-09",
+        "FS-09",
+        "DS-08"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "DS-09와 DS-08에서 적정의견에 계속기업 관련 중요한 불확실성 문단이 붙을 수 있음을 명확히 설명하고, FS-09에서 계속기업 불확실성의 의미와 공시 요건을 다루고 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-09', 'FS-09']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C2 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "적정의견은 재무제표가 중요성의 관점에서 공정하게 표시되어 있다는 의견입니다 [DS-09]. 그런데 계속기업 관련 중요한 불확실성 문단이 붙어 있으면, 감사의견 자체는 변형되지 않고 적정의견이 유지되지만, 경영진이 계속기업으로서의 존속가능성에 대해 유의적인 의문을 제기할 수 있는 중요한 불확실성이 있음을 공시한 것입니다 [DS-09][FS-09]. 즉, 재무제표는 계속기업 전제로 작성되었으나, 향후 12개월 내에 존속능력에 불확실성이 존재함을 주의 깊게 살펴야 한다는 의미입니다 [DS-09][FS-09].",
+      "citations": [
+        {
+          "id": "DS-09",
+          "title": "감사의견의 네 가지 종류",
+          "doc": "공시·감사보고서 읽기 학습노트",
+          "source": "회계감사기준 감사기준서 700, 705, 706",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "FS-09",
+          "title": "발생기준과 계속기업",
+          "doc": "재무제표 기초 학습노트",
+          "source": "K-IFRS 제1001호 문단 25~28",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "H07",
+      "question": "채권 듀레이션이 길면 금리 변화에 더 민감해?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 0.95,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "VA-09"
+      ],
+      "sections": [
+        "VA-09"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "VA-09에 듀레이션 정의와 듀레이션이 길수록 금리 변화에 가격이 더 민감하다는 내용이 명시되어 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-09']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "네, 채권 듀레이션이 길면 금리 변화에 대해 채권 가격이 더 민감하게 반응합니다. 듀레이션은 채권 현금흐름의 가중평균 회수기간이자, 금리 변화에 대한 채권 가격의 민감도를 나타냅니다. 따라서 듀레이션이 길수록 같은 금리 변화에 채권 가격이 더 크게 변합니다 [VA-09].",
+      "citations": [
+        {
+          "id": "VA-09",
+          "title": "채권 가격과 금리",
+          "doc": "기업가치평가·금융 기초 학습노트",
+          "source": "기업재무·투자론 교재 표준 공식",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    },
+    {
+      "id": "H08",
+      "question": "LG에너지솔루션 PER 지금 몇 배야?",
+      "expected_category": [
+        "C0",
+        "C4"
+      ],
+      "category": "C0",
+      "confidence": 1.0,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "C0(지원하지 않는 질문)"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H09",
+      "question": "스톡옵션 비용은 어떻게 회계처리해?",
+      "expected_category": [
+        "C2",
+        "C1"
+      ],
+      "category": "C1",
+      "confidence": 0.9,
+      "category_ok": 1,
+      "expected_tools": [
+        "abstain"
+      ],
+      "tools_called": [
+        "abstain"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "abstain",
+      "outcome": "abstain",
+      "outcome_ok": 1,
+      "evidence": [],
+      "sections": [
+        "AP-01",
+        "AP-06",
+        "AP-02",
+        "AP-08"
+      ],
+      "retrieval_ok": null,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": false,
+          "detail": "근거에 없는 용어: 스톡옵션"
+        }
+      ],
+      "verification": null,
+      "answer": "[보류] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 질문의 핵심 용어(스톡옵션)를 다루는 근거가 없습니다.\n확인할 곳: 세무는 세무사, 원가·관리회계는 해당 교재, 개별 기준서는 K-IFRS 원문",
+      "citations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H10",
+      "question": "회수기간법이랑 NPV 중 뭐가 더 나아?",
+      "expected_category": [
+        "C4"
+      ],
+      "category": "C4",
+      "confidence": 0.95,
+      "category_ok": 1,
+      "expected_tools": [
+        "lookup_corpfin"
+      ],
+      "tools_called": [
+        "lookup_corpfin"
+      ],
+      "tool_score": 1,
+      "expected_outcome": "answer",
+      "outcome": "answer",
+      "outcome_ok": 1,
+      "evidence": [
+        "CF-01",
+        "CF-03"
+      ],
+      "sections": [
+        "CF-03",
+        "CF-01"
+      ],
+      "retrieval_ok": 1,
+      "answer_score": 1,
+      "missing": [],
+      "violations": [],
+      "unsupported": 0,
+      "failed_drafts": 0,
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "llm_gate",
+          "passed": true,
+          "detail": "CF-03과 CF-01에 회수기간법과 NPV의 정의, 장단점, 의사결정 기준이 명확히 설명되어 있다."
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "출처 표시",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['CF-01', 'CF-03']"
+          },
+          {
+            "name": "카테고리 일치",
+            "passed": true,
+            "detail": "인용 섹션이 모두 C4 매핑 안에 있음"
+          },
+          {
+            "name": "계산 검증",
+            "passed": true,
+            "detail": "계산식이 모두 맞음(또는 계산식 없음)"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거·질문·검증된 계산에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ]
+      },
+      "answer": "회수기간법은 초기 투자액을 회수하는 데 걸리는 기간을 계산하는 방법으로, 계산이 간단하고 유동성을 보는 데 유용합니다. 하지만 화폐의 시간가치를 무시하고 회수 이후의 현금흐름을 고려하지 않는 한계가 있습니다 [CF-03]. 반면, NPV(순현재가치)는 투자안이 앞으로 만들 현금흐름의 현재가치에서 초기 투자액을 뺀 값으로, 자본비용을 넘는 수익을 내어 기업가치를 높이는지를 판단할 수 있습니다 [CF-01]. 따라서 화폐의 시간가치를 반영하고 투자안의 경제적 가치를 더 정확히 평가할 수 있는 NPV가 더 나은 평가 방법입니다 [CF-01, CF-03].",
+      "citations": [
+        {
+          "id": "CF-03",
+          "title": "회수기간법",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        },
+        {
+          "id": "CF-01",
+          "title": "순현재가치(NPV)",
+          "doc": "기업재무 학습노트: 투자결정·자금조달·자본구조",
+          "source": "기업재무 교재(자본예산)",
+          "version": "학습노트 v2 (2026-11-02 작성)"
+        }
+      ],
+      "diagnosis": []
+    }
+  ]
+}

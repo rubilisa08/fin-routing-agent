@@ -88,8 +88,16 @@ def grade_llm(item: dict, answer: str, llm: LLM) -> dict:
     claims = [c["claim"] for c in item["must_not"]]
     system, user = judge_prompt(item["question"], answer, facts, claims)
     out = llm.json(system, user)
-    missing = [f["fact"] for f in out.get("facts", []) if not f.get("included")]
-    violated = [v["claim"] for v in out.get("violations", []) if v.get("violated")]
+    # 판정은 문항 순서대로 맞춘다. 형식이 어긋나면(문자열 목록, 개수 불일치) 키워드 채점기로 대신하고 그 사실을 기록한다.
+    f_out, v_out = out.get("facts", []), out.get("violations", [])
+    well_formed = (len(f_out) == len(facts) and len(v_out) == len(claims)
+                   and all(isinstance(x, dict) for x in f_out + v_out))
+    if not well_formed:
+        g = grade_keyword(item, answer)
+        g["judge"] = {"fallback": "keyword", "raw": out}
+        return g
+    missing = [facts[i] for i, f in enumerate(f_out) if not f.get("included")]
+    violated = [claims[i] for i, v in enumerate(v_out) if v.get("violated")]
     return {"missing": missing, "violations": violated, "judge": out}
 
 

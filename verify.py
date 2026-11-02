@@ -7,7 +7,9 @@ import re
 
 from context import CATEGORIES, Section, load_sections, terms_in
 
-CITE_RE = re.compile(r"\[([A-Z]{2}-\d{2})\]")
+# 인용 괄호: [CF-01] 또는 [CF-01, CF-03]처럼 여러 섹션을 묶은 경우도 인용으로 본다
+ID_RE = re.compile(r"[A-Z]{2}-\d{2}")
+CITE_RE = re.compile(r"\[\s*[A-Z]{2}-\d{2}(?:\s*[,·/]\s*[A-Z]{2}-\d{2})*\s*\]")
 NUM_RE = re.compile(r"\d+(?:\.\d+)?")
 ADVICE_PATTERNS = [
     r"매수(하세요|하시길|를 추천|해도 좋)", r"매도(하세요|하시길|를 추천)", r"사(세요|셔도 됩니다|도 됩니다)",
@@ -33,11 +35,15 @@ def _korean_units(text: str) -> str:
 
 
 def _numbers(text: str) -> set[str]:
-    text = _korean_units(CITE_RE.sub(" ", text))
+    text = _korean_units(ID_RE.sub(" ", CITE_RE.sub(" ", text)))
     text = re.sub(r"(?m)^\s*\d+\.\s", " ", text)                     # 목록 번호
     text = re.sub(r"K-IFRS 제\d{4}호|제\d+조|문단 [\d.A~, ]+", " ", text)  # 기준서·조문 번호
     text = re.sub(r"[A-Za-z_]+\d+", " ", text)                        # C1, CF_t 같은 기호 첨자
-    return {n.rstrip("0").rstrip(".") if "." in n else n for n in NUM_RE.findall(_strip_thousands(text))}
+    text = _strip_thousands(text)
+    nums = {n.rstrip("0").rstrip(".") if "." in n else n for n in NUM_RE.findall(text)}
+    # 백분율은 소수로도 쓴다: 질문의 '5%'를 답변이 공식에 넣을 때 '0.05'로 쓰는 경우
+    nums |= {f"{float(p) / 100:g}" for p in re.findall(r"(\d+(?:\.\d+)?)\s*%", text)}
+    return nums
 
 
 # ---------------------------------------------------------------------------
@@ -76,7 +82,7 @@ def _eval(expr: str) -> float | None:
 def check_calculations(answer: str) -> tuple[list[str], set[str]]:
     """계산식을 다시 계산해 틀린 식 목록과, 검증된 계산 결과 숫자 집합을 돌려준다."""
     errors, derived = [], set()
-    for line in _strip_thousands(CITE_RE.sub(" ", answer)).splitlines():
+    for line in _strip_thousands(ID_RE.sub(" ", CITE_RE.sub(" ", answer))).splitlines():
         segs = re.split(r"=|≈", line)
         for left_seg, right_seg in zip(segs, segs[1:]):
             lm = re.search(rf"{EXPR_CHARS}+$", left_seg)
@@ -111,7 +117,7 @@ def verify(answer: str, sections: list[Section], question: str, category: str | 
     })
 
     # 2. 인용 범위: 인용한 섹션이 이번에 조립한 근거 안에 있는가
-    cited = set(CITE_RE.findall(answer))
+    cited = set(cited_ids(answer))
     outside = sorted(cited - allowed_ids)
     checks.append({
         "name": "인용 범위",
@@ -163,11 +169,15 @@ def verify(answer: str, sections: list[Section], question: str, category: str | 
     return {"passed": all(c["passed"] for c in checks), "checks": checks}
 
 
+def cited_ids(answer: str) -> list[str]:
+    return [sid for group in CITE_RE.findall(answer) for sid in ID_RE.findall(group)]
+
+
 def citations(answer: str) -> list[dict]:
     """답변이 인용한 섹션의 출처 목록. 답변(생성)과 근거(검색)를 구분해 보여 주기 위해 코드가 만든다."""
     secs = load_sections()
     seen = []
-    for sid in CITE_RE.findall(answer):
+    for sid in cited_ids(answer):
         if sid in secs and sid not in seen:
             seen.append(sid)
     return [secs[s].citation() for s in seen]

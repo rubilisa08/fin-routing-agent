@@ -40,7 +40,7 @@ CATEGORIES: dict[str, dict] = {
         "en": "Financial Statements",
         "tool": "lookup_statements",
         "description": "재무제표의 구성과 구조(재무상태표·포괄손익계산서·현금흐름표·자본변동표·주석), 유동/비유동 구분, "
-        "기타포괄손익, 연결/별도재무제표, 재무제표 간 관계, 공시(DART·사업보고서·주요사항보고서)와 감사보고서·감사의견 읽기",
+        "기타포괄손익, 연결/별도재무제표, 재무제표 간 관계, 배당의 회계처리(비용이 아닌 자본변동표의 이익잉여금 감소), 공시(DART·사업보고서·주요사항보고서)와 감사보고서·감사의견 읽기",
         "sections": [f"FS-{i:02d}" for i in range(1, 11)] + [f"DS-{i:02d}" for i in range(1, 10)],
         "out_of_scope": "리스·수익인식·금융상품·법인세 등 개별 기준서 세부, 특정 회사의 실제 공시 내용·실적, "
         "한국거래소 상장규정에 따른 조치(관리종목 지정, 상장폐지 요건 등)",
@@ -65,7 +65,7 @@ CATEGORIES: dict[str, dict] = {
         "en": "Corporate Finance",
         "tool": "lookup_corpfin",
         "description": "화폐의 시간가치(현재가치·미래가치·복리·연금), 자본예산(NPV·IRR·회수기간), 자금조달(부채·자기자본), "
-        "자본구조(MM이론·상충이론), 레버리지(DOL·DFL), 자본비용(WACC·CAPM), DCF·멀티플(PER·PBR·EV/EBITDA), EPS, 배당, 채권",
+        "자본구조(MM이론·상충이론), 레버리지(DOL·DFL), 자본비용(WACC·CAPM), DCF·멀티플(PER·PBR·EV/EBITDA), EPS, 배당 지표(배당성향·배당수익률·배당할인모형), 채권",
         "sections": [f"VA-{i:02d}" for i in range(1, 11)] + [f"CF-{i:02d}" for i in range(1, 7)] + ["FS-04"],
         "out_of_scope": "특정 시점의 시장 수치(무위험이자율, 시장위험프리미엄, 시장금리, 업종 평균 멀티플), "
         "특정 기업의 실제 투자안 평가, 특정 종목의 목표주가·매수·매도 판단",
@@ -142,7 +142,7 @@ class Settings:
 
     top_k: int = 4                  # 카테고리 안에서 프롬프트에 넣을 섹션 수
     min_similarity: float = 0.05    # offline 게이트: 최고 유사도가 이보다 낮으면 보류
-    confidence_threshold: float = 0.6  # ① 판정 신뢰도가 이보다 낮으면 되묻기
+    confidence_threshold: float = 0.75  # ① 판정 신뢰도가 이보다 낮으면 되묻기 (0.6~0.96 비교 후 선택, REPORT §4)
     use_scope_rules: bool = True    # 문서 '범위' 문단에서 뽑은 규칙으로 보류
     use_term_coverage: bool = True  # 질문의 금융 용어가 카테고리 근거에 없으면 보류
     use_llm_gate: bool = True       # (LLM 모드) 근거 충분성 LLM 판단

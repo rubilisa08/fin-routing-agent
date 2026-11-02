@@ -1,3 +1,13 @@
 | 시각 | 라벨 | 데이터 | 모델 | 채점기 | 설정 | 도구 호출 | 답변 적절성 | 분류 | 근거 적합 | 답변 정확 | 근거 없는 생성 | 보류 정확 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 2026-11-02 15:59 | v2-offline-baseline | goldenset.json | offline/rule-based | keyword | top_k=4, conf=0.6, scope=1, term=1, gate=1 | 45/50 (90%) | 31/50 (62%) | 45/50 (90%) | 27/32 (84%) | 15/32 (47%) | 0/30 (0%) | 45/50 (90%) |
+| 2026-11-02 17:00 | llm-baseline | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.6, scope=1, term=1, gate=1 | 45/50 (90%) | 45/50 (90%) | 46/50 (92%) | 28/32 (88%) | 30/32 (94%) | 0/33 (0%) | 46/50 (92%) |
+| 2026-11-02 17:06 | llm+pct-fix | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.6, scope=1, term=1, gate=1 | 46/50 (92%) | 46/50 (92%) | 46/50 (92%) | 28/32 (88%) | 31/32 (97%) | 0/34 (0%) | 47/50 (94%) |
+| 2026-11-02 17:09 | llm+C2-dividend-desc | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.6, scope=1, term=1, gate=1 | 47/50 (94%) | 46/50 (92%) | 47/50 (94%) | 29/32 (91%) | 31/32 (97%) | 0/34 (0%) | 47/50 (94%) |
+| 2026-11-02 17:14 | llm+conf0.75 | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=1, term=1, gate=1 | 48/50 (96%) | 47/50 (94%) | 47/50 (94%) | 29/32 (91%) | 31/32 (97%) | 0/34 (0%) | 48/50 (96%) |
+| 2026-11-02 17:17 | llm-holdout | holdout.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=1, term=1, gate=1 | 9/10 (90%) | 9/10 (90%) | 10/10 (100%) | 7/7 (100%) | 6/7 (86%) | 0/6 (0%) | 9/10 (90%) |
+| 2026-11-02 17:31 | llm-holdout+cite-fix | holdout.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=1, term=1, gate=1 | 10/10 (100%) | 10/10 (100%) | 10/10 (100%) | 7/7 (100%) | 7/7 (100%) | 0/7 (0%) | 10/10 (100%) |
+| 2026-11-02 17:32 | llm+cite-fix | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=1, term=1, gate=1 | 48/50 (96%) | 47/50 (94%) | 47/50 (94%) | 29/32 (91%) | 31/32 (97%) | 0/34 (0%) | 48/50 (96%) |
+| 2026-11-02 17:36 | llm-no-gate | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=1, term=1, gate=0 | 48/50 (96%) | 45/50 (90%) | 47/50 (94%) | 30/32 (94%) | 29/32 (91%) | 1/34 (3%) | 48/50 (96%) |
+| 2026-11-02 17:37 | llm-no-gate-no-rules | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=0, term=0, gate=0 | 44/50 (88%) | 41/50 (82%) | 47/50 (94%) | 30/32 (94%) | 29/32 (91%) | 1/38 (3%) | 44/50 (88%) |
+| 2026-11-02 17:44 | llm-final | goldenset.json | openai/gpt-4.1-mini | llm | top_k=4, conf=0.75, scope=1, term=1, gate=1 | 48/50 (96%) | 47/50 (94%) | 47/50 (94%) | 29/32 (91%) | 31/32 (97%) | 0/34 (0%) | 48/50 (96%) |
