@@ -1,0 +1,38 @@
+{
+  "_note": "프롬프트 예시 전용. 평가셋(goldenset.json)과 질문이 겹치지 않는다. evaluate.py가 겹침 여부를 검사한다.",
+  "router": [
+    {"question": "재무상태표의 자본은 어떤 항목들로 구성돼?", "category": "fs"},
+    {"question": "간접법 현금흐름표는 어떻게 만들어?", "category": "fs"},
+    {"question": "배당은 왜 비용으로 안 잡혀?", "category": "fs"},
+    {"question": "이자보상배율이 1보다 작으면 무슨 뜻이야?", "category": "ratio"},
+    {"question": "재고자산회전율 계산법 알려줘", "category": "ratio"},
+    {"question": "ROA는 어떻게 구해?", "category": "ratio"},
+    {"question": "주요사항보고서는 언제까지 내야 해?", "category": "disclosure"},
+    {"question": "핵심감사사항이 뭐야?", "category": "disclosure"},
+    {"question": "조회공시가 뭐야?", "category": "disclosure"},
+    {"question": "금리가 오르면 채권 가격은 어떻게 돼?", "category": "valuation"},
+    {"question": "EV/EBITDA의 EV는 어떻게 구해?", "category": "valuation"},
+    {"question": "희석주당이익이 뭐야?", "category": "valuation"},
+    {"question": "비트코인 내년에 오를까?", "category": "other"},
+    {"question": "부가세 신고 기한이 언제야?", "category": "other"},
+    {"question": "오늘 점심 뭐 먹지?", "category": "other"}
+  ],
+  "sufficiency": [
+    {
+      "question": "이자보상배율이 1보다 작으면 무슨 뜻이야?",
+      "sections": ["RA-05"],
+      "verdict": {"sufficient": true, "needed_sections": ["RA-05"], "reason": "RA-05에 이자보상배율 정의와 1 미만의 의미가 있다.", "missing": ""}
+    },
+    {
+      "question": "이연법인세자산은 언제 인식해?",
+      "sections": ["FS-03", "FS-04"],
+      "verdict": {"sufficient": false, "needed_sections": [], "reason": "근거 섹션에 이연법인세의 인식 요건이 없다.", "missing": "이연법인세 인식 요건(K-IFRS 제1012호)은 학습노트 범위 밖입니다."}
+    }
+  ],
+  "answer": [
+    {
+      "question": "이자보상배율이 1보다 작으면 무슨 뜻이야?",
+      "answer": "이자보상배율은 영업이익을 이자비용으로 나눈 값입니다 [RA-05]. 1 미만이면 영업이익으로 이자비용도 감당하지 못한다는 뜻입니다 [RA-05]."
+    }
+  ]
+}

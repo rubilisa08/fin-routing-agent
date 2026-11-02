@@ -1,0 +1,640 @@
+{
+  "summary": {
+    "label": "offline-holdout",
+    "time": "2026-11-02 12:59",
+    "provider": "offline",
+    "model": "rule-based",
+    "grader": "keyword",
+    "settings": {
+      "top_k": 4,
+      "min_similarity": 0.05,
+      "use_scope_rules": true,
+      "use_term_coverage": true,
+      "use_llm_gate": true
+    },
+    "n": 10,
+    "tool_score": 0.6,
+    "answer_score": 0.7,
+    "router_accuracy": 0.7
+  },
+  "records": [
+    {
+      "id": "H01",
+      "question": "자본변동표에는 어떤 내용이 들어가?",
+      "expected_category": "fs",
+      "category": "fs",
+      "expected_tools": [
+        "lookup_fs"
+      ],
+      "tools_called": [
+        "lookup_fs"
+      ],
+      "tool_score": 1,
+      "answer_score": 1,
+      "sections": [
+        "FS-07",
+        "FS-01",
+        "FS-10",
+        "FS-03"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.192 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-01', 'FS-07']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "자본변동표는 일정 기간 자본의 각 구성요소의 변동을 보여준다. [FS-07]\n배당은 비용이 아니므로 포괄손익계산서가 아니라 자본변동표에서 이익잉여금의 감소로 나타난다. [FS-07]\n재무상태표는 특정 시점(보고기간 말)의 상태를, 포괄손익계산서·자본변동표·현금흐름표는 일정 기간의 변동을 보여준다. [FS-01]",
+      "missing": [],
+      "violations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H02",
+      "question": "영업이익은 어떻게 계산해?",
+      "expected_category": "fs",
+      "category": "other",
+      "expected_tools": [
+        "lookup_fs"
+      ],
+      "tools_called": [
+        "handoff"
+      ],
+      "tool_score": 0,
+      "answer_score": 0,
+      "sections": [],
+      "gate": [
+        {
+          "check": "category",
+          "passed": false,
+          "detail": "기타(범위 밖) 카테고리"
+        }
+      ],
+      "verification": null,
+      "answer": "[넘김] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 범위 밖 질문입니다.\n확인할 곳: 세무 상담은 세무사, 투자 판단은 본인 또는 투자자문업자, 실적 수치는 DART 원문",
+      "missing": [
+        "답할 수 있는데 넘김"
+      ],
+      "violations": [],
+      "diagnosis": [
+        "[도구] 답할 수 있는데 넘김 — ① 판정 오류: 'other'(기대 'fs')로 분류되어 넘김",
+        "[답변] 필수 사실 누락: 답할 수 있는데 넘김"
+      ]
+    },
+    {
+      "id": "H03",
+      "question": "당좌비율은 유동비율이랑 뭐가 달라?",
+      "expected_category": "ratio",
+      "category": "ratio",
+      "expected_tools": [
+        "lookup_ratio"
+      ],
+      "tools_called": [
+        "lookup_ratio"
+      ],
+      "tool_score": 1,
+      "answer_score": 1,
+      "sections": [
+        "RA-04",
+        "RA-01",
+        "FS-02",
+        "RA-09"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.349 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['RA-04']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "유동비율 = 유동자산 ÷ 유동부채 × 100 [RA-04]\n당좌비율 = (유동자산 − 재고자산) ÷ 유동부채 × 100 [RA-04]\n유동비율이 높다고 무조건 좋은 것도 아니다. [RA-04]\n재고자산이 과다하거나 현금이 수익을 내지 못하고 쌓여 있어도 유동비율은 높아진다. [RA-04]\n재고자산의 현금화 가능성이 낮은 기업은 당좌비율을 함께 본다. [RA-04]",
+      "missing": [],
+      "violations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H04",
+      "question": "이연법인세부채는 언제 생겨?",
+      "expected_category": "fs",
+      "category": "fs",
+      "expected_tools": [
+        "handoff"
+      ],
+      "tools_called": [
+        "handoff"
+      ],
+      "tool_score": 1,
+      "answer_score": 1,
+      "sections": [
+        "FS-02",
+        "FS-06",
+        "FS-03",
+        "FS-08"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": false,
+          "detail": "범위 밖 신호 '이연법인세'"
+        }
+      ],
+      "verification": null,
+      "answer": "[넘김] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 학습노트가 다루지 않는 내용입니다 — 리스·수익인식·금융상품·법인세 등 개별 회계처리 기준의 세부 내용, 세법\n확인할 곳: 해당 K-IFRS 기준서 원문 또는 회계 전문가",
+      "missing": [],
+      "violations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H05",
+      "question": "정정공시는 어떻게 확인해?",
+      "expected_category": "disclosure",
+      "category": "disclosure",
+      "expected_tools": [
+        "lookup_disclosure"
+      ],
+      "tools_called": [
+        "lookup_disclosure"
+      ],
+      "tool_score": 1,
+      "answer_score": 1,
+      "sections": [
+        "DS-07",
+        "DS-06",
+        "DS-04",
+        "FS-10"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.186 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-04', 'DS-06', 'DS-07']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "이미 제출한 공시서류의 내용을 고칠 때는 정정공시를 낸다. [DS-07]\n수시공시는 한국거래소 공시규정에 따라 상장법인이 주요 경영사항을 거래소에 신고하는 공시이다. [DS-06]\n조회공시는 풍문이나 보도의 사실 여부, 또는 주가·거래량의 현저한 변동이 있을 때 거래소가 상장법인에 사실 확인을 요구하고 회사가 답변하는 공시이다. [DS-06]\n공정공시는 회사가 실적 전망, 잠정 실적 등 중요 정보를 특정인(애널리스트, 기관투자자 등)에게 선별적으로 제공하기 전에 모든 시장참가자에게 공평하게 공개하도록 하는 제도이다. [DS-06]\n정정된 보고서가 있으면 최신 정정본을 본다. [DS-04]",
+      "missing": [],
+      "violations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H06",
+      "question": "적정의견인데 계속기업 불확실성 문단이 붙어 있으면 무슨 뜻이야?",
+      "expected_category": "disclosure",
+      "category": "fs",
+      "expected_tools": [
+        "lookup_disclosure"
+      ],
+      "tools_called": [
+        "lookup_fs"
+      ],
+      "tool_score": 0,
+      "answer_score": 1,
+      "sections": [
+        "FS-09",
+        "FS-08",
+        "FS-10",
+        "FS-07"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.159 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['FS-08', 'FS-09']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "재무제표는 계속기업을 전제로 작성한다. [FS-09]\n계속기업으로서의 존속능력에 유의적인 의문을 제기할 수 있는 중요한 불확실성을 알게 된 경우 그 불확실성을 공시한다. [FS-09]\n경영진의 유의적인 판단과 추정의 불확실성 [FS-08]",
+      "missing": [],
+      "violations": [],
+      "diagnosis": [
+        "[도구] 다른 근거 조회: 기대 ['lookup_disclosure'], 실제 ['lookup_fs'] (① 판정 'fs', 기대 'disclosure')",
+        "[근거] 필요한 섹션 ['DS-09']이 조립되지 않음 (조립: ['FS-09', 'FS-08', 'FS-10', 'FS-07'])"
+      ]
+    },
+    {
+      "id": "H07",
+      "question": "채권 듀레이션이 길면 금리 변화에 더 민감해?",
+      "expected_category": "valuation",
+      "category": "valuation",
+      "expected_tools": [
+        "lookup_valuation"
+      ],
+      "tools_called": [
+        "lookup_valuation"
+      ],
+      "tool_score": 1,
+      "answer_score": 1,
+      "sections": [
+        "VA-09",
+        "VA-03",
+        "VA-05",
+        "VA-10"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.535 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-09']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "듀레이션은 채권 현금흐름의 가중평균 회수기간이자, 금리 변화에 대한 채권 가격의 민감도를 나타낸다. [VA-09]\n듀레이션이 길수록 같은 금리 변화에 가격이 더 크게 변한다. [VA-09]\n일반적으로 만기가 길고 표면이자율이 낮을수록 듀레이션이 길다. [VA-09]",
+      "missing": [],
+      "violations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H08",
+      "question": "LG에너지솔루션 PER 지금 몇 배야?",
+      "expected_category": "other",
+      "category": "valuation",
+      "expected_tools": [
+        "handoff"
+      ],
+      "tools_called": [
+        "lookup_valuation"
+      ],
+      "tool_score": 0,
+      "answer_score": 0,
+      "sections": [
+        "VA-06",
+        "VA-08",
+        "VA-02",
+        "VA-01"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.186 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['VA-06']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "PER(주가수익비율) = 주가 ÷ 주당순이익(EPS) = 시가총액 ÷ 당기순이익 [VA-06]\nPER에는 보편적으로 '적정한' 배수가 없다. [VA-06]\n따라서 PER이 낮다는 사실만으로 저평가라고 판단할 수 없다. [VA-06]\n이익이 일시적으로 부풀었거나 성장이 둔화될 것으로 시장이 예상하는 경우에도 PER이 낮게 나타난다. [VA-06]\n당기순이익이 적자이면 PER은 의미가 없다. [VA-06]",
+      "missing": [
+        "넘겨야 하는데 답을 지어냄"
+      ],
+      "violations": [],
+      "diagnosis": [
+        "[도구] 넘겨야 하는데 ['lookup_valuation']로 답함 → 근거 밖 내용을 지어낼 위험",
+        "[답변] 필수 사실 누락: 넘겨야 하는데 답을 지어냄"
+      ]
+    },
+    {
+      "id": "H09",
+      "question": "스톡옵션 비용은 어떻게 회계처리해?",
+      "expected_category": "fs",
+      "category": "fs",
+      "expected_tools": [
+        "handoff"
+      ],
+      "tools_called": [
+        "handoff"
+      ],
+      "tool_score": 1,
+      "answer_score": 1,
+      "sections": [
+        "FS-08",
+        "FS-10",
+        "FS-04",
+        "FS-07"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": false,
+          "detail": "근거에 없는 용어: 스톡옵션"
+        }
+      ],
+      "verification": null,
+      "answer": "[넘김] 학습노트 근거로는 답할 수 없어 답변을 보류합니다.\n사유: 질문의 핵심 용어(스톡옵션)를 다루는 근거가 없습니다.\n확인할 곳: 해당 K-IFRS 기준서 원문 또는 회계 전문가",
+      "missing": [],
+      "violations": [],
+      "diagnosis": []
+    },
+    {
+      "id": "H10",
+      "question": "코스닥 상장 요건이 뭐야?",
+      "expected_category": "disclosure",
+      "category": "disclosure",
+      "expected_tools": [
+        "handoff"
+      ],
+      "tools_called": [
+        "lookup_disclosure"
+      ],
+      "tool_score": 0,
+      "answer_score": 0,
+      "sections": [
+        "DS-06",
+        "DS-01",
+        "DS-08",
+        "FS-10"
+      ],
+      "gate": [
+        {
+          "check": "scope_rule",
+          "passed": true,
+          "detail": "범위 밖 신호 없음"
+        },
+        {
+          "check": "term_coverage",
+          "passed": true,
+          "detail": "질문 용어가 모두 근거에 있음"
+        },
+        {
+          "check": "similarity",
+          "passed": true,
+          "detail": "최고 유사도 0.070 (하한 0.05)"
+        }
+      ],
+      "verification": {
+        "passed": true,
+        "checks": [
+          {
+            "name": "근거 표기",
+            "passed": true,
+            "detail": "모든 문단에 근거 표기 있음"
+          },
+          {
+            "name": "인용 범위",
+            "passed": true,
+            "detail": "인용 ['DS-01', 'DS-06', 'DS-08', 'FS-10']"
+          },
+          {
+            "name": "수치 근거",
+            "passed": true,
+            "detail": "모든 수치가 근거 또는 질문에 있음"
+          },
+          {
+            "name": "용어 근거",
+            "passed": true,
+            "detail": "답변의 금융 용어가 모두 근거에 있음"
+          },
+          {
+            "name": "투자 권유 금지",
+            "passed": true,
+            "detail": "권유·전망 표현 없음"
+          }
+        ],
+        "warnings": []
+      },
+      "answer": "수시공시는 한국거래소 공시규정에 따라 상장법인이 주요 경영사항을 거래소에 신고하는 공시이다. [DS-06]\n조회공시는 풍문이나 보도의 사실 여부, 또는 주가·거래량의 현저한 변동이 있을 때 거래소가 상장법인에 사실 확인을 요구하고 회사가 답변하는 공시이다. [DS-06]\nDART(dart.fss.or.kr)는 금융감독원이 운영하는 전자공시시스템으로, 상장회사 등이 제출한 사업보고서·감사보고서·주요사항보고서·증권신고서 등을 누구나 조회할 수 있다. [DS-01]\n핵심감사사항(KAM, 상장회사 등에 적용): 당기 감사에서 감사인이 가장 유의적이라고 판단한 사항 [DS-08]\n상장회사 사업보고서에는 연결재무제표와 별도재무제표가 함께 실리므로, 어느 쪽 숫자를 보고 있는지 항상 확인해야 한다. [FS-10]",
+      "missing": [
+        "넘겨야 하는데 답을 지어냄"
+      ],
+      "violations": [],
+      "diagnosis": [
+        "[도구] 넘겨야 하는데 ['lookup_disclosure']로 답함 → 근거 밖 내용을 지어낼 위험",
+        "[답변] 필수 사실 누락: 넘겨야 하는데 답을 지어냄"
+      ]
+    }
+  ]
+}
