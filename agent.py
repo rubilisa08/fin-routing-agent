@@ -14,8 +14,8 @@ from langgraph.graph import END, START, StateGraph
 
 from context import ABSTAIN, CATEGORIES, CLARIFY, Section, Settings, assemble, load_sections, similarity
 from llm import LLM
-from prompts import OFFLINE_KEYWORDS, OFFLINE_OTHER_SIGNALS, answer_prompt, router_prompt
-from verify import citations, feedback, verify
+from prompts import EVIDENCE_TYPES, OFFLINE_KEYWORDS, OFFLINE_OTHER_SIGNALS, answer_prompt, jev_router_questions, router_prompt
+from verify import citations, feedback, jev_support_check, verify
 
 MAX_ANSWER_ATTEMPTS = 2
 
@@ -27,6 +27,7 @@ class AgentState(TypedDict, total=False):
     alternative: str | None      # ① 두 번째 후보 카테고리
     evidence_types: list[str]    # ① 필요한 근거 유형
     category_reason: str
+    probabilities: dict | None   # (Jev) 카테고리별 확률
     tool: str | None             # ② 조회한 근거 도구
     sections: list[Section]      # ② 프롬프트에 넣은 근거 섹션
     scores: dict[str, float]     # ② 카테고리 안 섹션별 유사도
@@ -85,10 +86,28 @@ def offline_answer(question: str, sections: list[Section], max_sentences: int = 
 # ---------------------------------------------------------------------------
 # 그래프
 # ---------------------------------------------------------------------------
-def build_graph(llm: LLM, settings: Settings):
+def jev_classify(jev, question: str) -> dict:
+    """Jev choice 질문으로 카테고리별 확률을 받는다. 신뢰도 = 1위 확률, 대안 = 2위(확률 0.1 이상일 때)."""
+    ans = jev.decide({"question": question}, jev_router_questions(CATEGORIES))
+    probs = ans["category"]["probabilities"]
+    ranked = sorted(probs, key=lambda k: -probs[k])
+    top, second = ranked[0], ranked[1]
+    return {
+        "category": top, "confidence": probs[top], "alternative": second if probs[second] >= 0.1 else None,
+        "evidence_types": [t for i, t in enumerate(EVIDENCE_TYPES) if ans[f"etype_{i}"]["noul"] >= 0.5],
+        "reason": "Jev 카테고리 확률 " + ", ".join(f"{k} {probs[k]:.2f}" for k in ranked[:3]),
+        "probabilities": {k: round(probs[k], 3) for k in ranked},
+    }
+
+
+def build_graph(llm: LLM, settings: Settings, jev=None):
+    use_jev = settings.decider == "jev" and jev is not None
+
     def classify(state: AgentState) -> AgentState:
         q = state["question"]
-        if llm.online:
+        if use_jev:
+            out = jev_classify(jev, q)
+        elif llm.online:
             system, user = router_prompt(q, CATEGORIES)
             out = llm.json(system, user)
         else:
@@ -102,6 +121,7 @@ def build_graph(llm: LLM, settings: Settings):
         return {
             "category": cat, "confidence": conf, "alternative": alt,
             "evidence_types": out.get("evidence_types") or [], "category_reason": out.get("reason", ""),
+            "probabilities": out.get("probabilities"),
             "trace": state.get("trace", []) + [f"① 판정: {cat} (신뢰도 {conf:.2f})"],
         }
 
@@ -120,7 +140,7 @@ def build_graph(llm: LLM, settings: Settings):
                 "trace": state["trace"] + ["→ 되묻기"]}
 
     def gather(state: AgentState) -> AgentState:
-        asm = assemble(state["question"], state["category"], settings, llm)
+        asm = assemble(state["question"], state["category"], settings, llm, jev if use_jev else None)
         msg = f"② 근거 조립: {asm.tool or '-'} → {[s.id for s in asm.sections]} / {'충분' if asm.sufficient else '보류'}"
         return {
             "tool": asm.tool, "sections": asm.sections, "scores": asm.scores, "gate": asm.gate,
@@ -141,6 +161,10 @@ def build_graph(llm: LLM, settings: Settings):
 
     def check(state: AgentState) -> AgentState:
         result = verify(state["answer"], state["sections"], state["question"], state["category"])
+        if use_jev:  # 기계적 검사에 더해, Jev가 문장마다 근거 지지 확률을 낸다
+            c = jev_support_check(state["answer"], state["sections"], jev, settings.jev_support_threshold)
+            result["checks"].append(c)
+            result["passed"] = result["passed"] and c["passed"]
         failed = state.get("failed_drafts", [])
         if not result["passed"]:
             failed = failed + [{"answer": state["answer"], "problems": feedback(result)}]
@@ -193,7 +217,14 @@ class Agent:
     def __init__(self, provider: str | None = None, settings: Settings | None = None):
         self.llm = LLM(provider)
         self.settings = settings or Settings()
-        self.graph = build_graph(self.llm, self.settings)
+        self.jev = None
+        if self.settings.decider == "jev":
+            from jev import Jev
+
+            self.jev = Jev()
+            if not self.jev.available:
+                raise RuntimeError("decider=jev인데 .env에 JEV_API_KEY가 없습니다.")
+        self.graph = build_graph(self.llm, self.settings, self.jev)
 
     def run(self, question: str) -> AgentState:
         return self.graph.invoke({"question": question, "trace": []})

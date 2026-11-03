@@ -146,6 +146,9 @@ class Settings:
     use_scope_rules: bool = True    # 문서 '범위' 문단에서 뽑은 규칙으로 보류
     use_term_coverage: bool = True  # 질문의 금융 용어가 카테고리 근거에 없으면 보류
     use_llm_gate: bool = True       # (LLM 모드) 근거 충분성 LLM 판단
+    decider: str = "llm"            # 판정·충분성·근거 지지 판단을 누가 하나: llm | jev
+    jev_gate_threshold: float = 0.5     # (Jev) '근거만으로 답할 수 있다' 확률이 이보다 낮으면 보류
+    jev_support_threshold: float = 0.5  # (Jev) 답변 문장의 '근거가 뒷받침한다' 확률이 이보다 낮으면 검증 실패
 
     def as_dict(self) -> dict:
         return dict(self.__dict__)
@@ -241,7 +244,7 @@ def terms_in(text: str) -> set[str]:
 # ---------------------------------------------------------------------------
 # ② 근거 조립 + 보류 판단
 # ---------------------------------------------------------------------------
-def assemble(question: str, category: str, settings: Settings, llm=None) -> Assembly:
+def assemble(question: str, category: str, settings: Settings, llm=None, jev=None) -> Assembly:
     cat = CATEGORIES[category]
     asm = Assembly(category=category, tool=cat["tool"])
 
@@ -274,8 +277,25 @@ def assemble(question: str, category: str, settings: Settings, llm=None) -> Asse
             return asm
         asm.gate.append({"check": "term_coverage", "passed": True, "detail": "질문 용어가 모두 근거에 있음"})
 
-    # (c) 근거 충분성: LLM 모드는 LLM이 판단하고 필요한 섹션만 고른다. offline은 유사도 하한.
-    if llm is not None and llm.online and settings.use_llm_gate:
+    # (c) 근거 충분성: Jev 모드는 Jev의 확률로, LLM 모드는 LLM이 판단하고 필요한 섹션만 고른다. offline은 유사도 하한.
+    if settings.decider == "jev" and jev is not None and settings.use_llm_gate:
+        from prompts import jev_gate_questions
+
+        ans = jev.decide({"question": question, "category": cat["name"],
+                          "sections": {s.id: s.body for s in asm.sections}},
+                         jev_gate_questions(cat, asm.sections))
+        p_ok = ans["answerable"]["noul"]
+        need = {s.id: ans[f"need_{s.id}"]["noul"] for s in asm.sections}
+        used = [s for s in asm.sections if need[s.id] >= 0.5] or [max(asm.sections, key=lambda s: need[s.id])]
+        ok = p_ok >= settings.jev_gate_threshold
+        asm.gate.append({"check": "jev_gate", "passed": ok, "p": round(p_ok, 3),
+                         "detail": f"근거만으로 답할 수 있을 확률 {p_ok:.2f} (임계값 {settings.jev_gate_threshold}); "
+                                   f"섹션별 필요 확률 " + ", ".join(f"{k} {v:.2f}" for k, v in need.items())})
+        if not ok:
+            asm.handoff_reason = "근거 문서만으로 답할 수 있다는 판단 확률이 낮습니다."
+            return asm
+        asm.sections = used
+    elif llm is not None and llm.online and settings.use_llm_gate:
         from prompts import sufficiency_prompt
 
         system, user = sufficiency_prompt(question, cat, asm.sections)

@@ -185,3 +185,23 @@ def citations(answer: str) -> list[dict]:
 
 def feedback(result: dict) -> list[str]:
     return [f"{c['name']}: {c['detail']}" for c in result["checks"] if not c["passed"]]
+
+
+def split_sentences(answer: str) -> list[str]:
+    parts = re.split(r"(?<=[.!?])\s+|\n+", answer)
+    return [p.strip(" -*•") for p in parts if len(CITE_RE.sub("", p).strip(" -*•")) > 5]
+
+
+def jev_support_check(answer: str, sections: list[Section], jev, threshold: float) -> dict:
+    """Jev가 답변 문장마다 '근거가 뒷받침하는가' 확률을 낸다. 하나라도 임계값 미만이면 실패."""
+    from prompts import jev_support_questions
+
+    sents = split_sentences(answer)
+    if not sents:
+        return {"name": "근거 지지(Jev)", "passed": False, "detail": "검사할 문장이 없음"}
+    ans = jev.decide({"evidence": {s.id: s.body for s in sections}}, jev_support_questions(sents))
+    probs = [ans[f"s{i}"]["noul"] for i in range(len(sents))]
+    weak = [(s, p) for s, p in zip(sents, probs) if p < threshold]
+    detail = (f"문장 {len(sents)}개 모두 근거 지지 확률 ≥ {threshold} (최저 {min(probs):.2f})" if not weak else
+              "근거 지지 확률이 낮은 문장: " + " / ".join(f"\"{CITE_RE.sub('', s).strip()[:50]}\" {p:.2f}" for s, p in weak))
+    return {"name": "근거 지지(Jev)", "passed": not weak, "detail": detail, "probs": [round(p, 3) for p in probs]}

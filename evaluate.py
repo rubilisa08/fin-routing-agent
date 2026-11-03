@@ -188,7 +188,8 @@ def run_eval(args) -> None:
     settings = Settings(
         top_k=args.top_k, min_similarity=args.min_sim, confidence_threshold=args.conf,
         use_scope_rules=not args.no_scope_rules, use_term_coverage=not args.no_term_coverage,
-        use_llm_gate=not args.no_llm_gate,
+        use_llm_gate=not args.no_llm_gate, decider=args.decider,
+        jev_gate_threshold=args.jev_gate, jev_support_threshold=args.jev_support,
     )
     agent = Agent(args.provider, settings)
     grader = args.grader or ("llm" if agent.llm.online else "keyword")
@@ -211,7 +212,8 @@ def run_eval(args) -> None:
         rec = {
             "id": it["id"], "question": it["question"],
             "expected_category": it.get("acceptable_categories") or [it["category"]], "category": out["category"],
-            "confidence": out.get("confidence"), "category_ok": int(category_ok(it, out["category"])),
+            "confidence": out.get("confidence"), "probabilities": out.get("probabilities"),
+            "category_ok": int(category_ok(it, out["category"])),
             "expected_tools": it["expected_tools"], "tools_called": out["tools_called"], "tool_score": tool_ok,
             "expected_outcome": exp_out, "outcome": got_out, "outcome_ok": int(exp_out == got_out),
             "evidence": it["evidence"], "sections": used,
@@ -254,12 +256,16 @@ def run_eval(args) -> None:
         "drafts_caught_by_verifier": m["caught"],
         "api_calls": agent.llm.api_calls if agent.llm.online else 0,
         "cache_hits": agent.llm.cache_hits if agent.llm.online else 0,
+        "jev_model": agent.jev.last_model if agent.jev else None,
+        "jev_calls": agent.jev.api_calls if agent.jev else 0,
+        "jev_cache_hits": agent.jev.cache_hits if agent.jev else 0,
     }
     print(f"\n[과제] 도구 호출 적절성 {pct(m['tool'], n)} | 답변 적절성 {pct(m['answer'], n)}")
     print(f"[PRD] ① 분류 정확도 {pct(m['route'], n)} | ② 근거 적합성 {pct(m['retrieval'], len(with_ev))} | "
           f"③ 답변 정확성 {pct(m['faithful'], len(answerable))} | ④ 근거 없는 정보 생성 {pct(m['unsupported'], len(answered))} | "
           f"⑤ 보류 정확도 {pct(m['abstain'], n)}")
-    print(f"검증이 걸러낸 초안이 있던 문항 {m['caught']}개 | API 호출 {summary['api_calls']}회, 캐시 {summary['cache_hits']}회")
+    print(f"검증이 걸러낸 초안이 있던 문항 {m['caught']}개 | LLM 호출 {summary['api_calls']}회(캐시 {summary['cache_hits']}회)"
+          + (f" | Jev 호출 {summary['jev_calls']}회(캐시 {summary['jev_cache_hits']}회), 모델 {summary['jev_model']}" if agent.jev else ""))
 
     RESULTS.mkdir(exist_ok=True)
     stem = f"run_{datetime.now():%Y%m%d_%H%M%S}_{args.label}"
@@ -279,8 +285,9 @@ def run_eval(args) -> None:
             "| 시각 | 라벨 | 데이터 | 모델 | 채점기 | 설정 | 도구 호출 | 답변 적절성 | 분류 | 근거 적합 | 답변 정확 | 근거 없는 생성 | 보류 정확 |\n"
             "|---|---|---|---|---|---|---|---|---|---|---|---|---|\n", encoding="utf-8")
     s = settings
-    knobs = (f"top_k={s.top_k}, conf={s.confidence_threshold}, scope={int(s.use_scope_rules)}, "
-             f"term={int(s.use_term_coverage)}, gate={int(s.use_llm_gate)}")
+    knobs = (f"decider={s.decider}, top_k={s.top_k}, conf={s.confidence_threshold}, scope={int(s.use_scope_rules)}, "
+             f"term={int(s.use_term_coverage)}, gate={int(s.use_llm_gate)}"
+             + (f", jev_gate={s.jev_gate_threshold}, jev_support={s.jev_support_threshold}" if s.decider == "jev" else ""))
     with hist.open("a", encoding="utf-8") as f:
         f.write(f"| {summary['time']} | {args.label} | {summary['data']} | {agent.llm.provider}/{agent.llm.model} | {grader} "
                 f"| {knobs} | {pct(m['tool'], n)} | {pct(m['answer'], n)} | {pct(m['route'], n)} "
@@ -303,6 +310,9 @@ def main():
     p.add_argument("--no-scope-rules", action="store_true")
     p.add_argument("--no-term-coverage", action="store_true")
     p.add_argument("--no-llm-gate", action="store_true")
+    p.add_argument("--decider", choices=["llm", "jev"], default=Settings.decider, help="판정·충분성·근거 지지 판단에 쓸 모델")
+    p.add_argument("--jev-gate", type=float, default=Settings.jev_gate_threshold)
+    p.add_argument("--jev-support", type=float, default=Settings.jev_support_threshold)
     args = p.parse_args()
 
     items = load_items(args.ids, args.data)

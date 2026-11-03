@@ -135,3 +135,53 @@ def judge_prompt(question: str, answer: str, must_include: list[str], must_not: 
         f"말하면 안 되는 것:\n" + "\n".join(f"- {c}" for c in must_not)
     )
     return JUDGE_SYSTEM, user
+
+
+# ---------------------------------------------------------------------------
+# Jev(의사결정 모델)에게 묻는 질문. Jev는 글 대신 질문별 보정된 확률을 돌려준다.
+# ---------------------------------------------------------------------------
+def jev_router_questions(categories: dict) -> dict:
+    """① 판정: 카테고리 하나를 고르는 choice 질문 + 근거 유형별 noul 질문(같은 호출에서 병렬 평가)."""
+    from jev import choice, noul
+
+    qs = {
+        "category": choice(
+            "이 재무·회계 학습 질문은 어느 분야의 지식을 묻는가? 질문에 나온 단어가 아니라 질문의 의도를 본다. "
+            "답을 알고 있는지, 근거가 있는지는 판단하지 않는다. 개념·공식·읽는 법을 묻는 질문은 세부 수치를 묻더라도 그 분야를 고른다.",
+            {k: f"{c['name']}({c['en']}): {c['description']}" for k, c in categories.items()},
+        )
+    }
+    for i, t in enumerate(EVIDENCE_TYPES):
+        qs[f"etype_{i}"] = noul(f"이 질문에 답하려면 '{t}' 유형의 근거가 필요한가?")
+    return qs
+
+
+def jev_gate_questions(category: dict, sections: list) -> dict:
+    """② 근거 충분성: 근거만으로 답할 수 있는가 + 섹션별로 필요한가."""
+    from jev import noul
+
+    qs = {
+        "answerable": noul(
+            "근거 섹션'만'으로, 일반 지식을 보충하지 않고 질문에 답할 수 있는가?",
+            true="질문이 요구하는 핵심 정보(정의·공식·기준·기한·수치)가 근거 섹션에 명시되어 있다.",
+            false=f"질문이 근거에 없는 정보를 요구한다(예: 업종 평균, 현재 시장 수치, 특정 회사 실적, 근거에 없는 규정). "
+                  f"이 분야가 다루지 않는 범위: {category['out_of_scope']}",
+        )
+    }
+    for s in sections:
+        qs[f"need_{s.id}"] = noul(f"질문에 답하려면 섹션 [{s.id}] {s.title}의 내용이 필요한가?")
+    return qs
+
+
+def jev_support_questions(sentences: list[str]) -> dict:
+    """④ 문장별 근거 지지: 답변의 각 문장이 근거 섹션으로 뒷받침되는가."""
+    from jev import noul
+
+    return {
+        f"s{i}": noul(
+            f"답변 문장이 근거 섹션에 의해 직접 뒷받침되는가? 문장: {s}",
+            true="문장의 사실·수치·주장이 모두 근거 섹션에 있거나, 근거의 공식에 질문의 숫자를 넣어 계산한 결과다.",
+            false="근거 섹션에 없는 사실·수치·주장이 들어 있다.",
+        )
+        for i, s in enumerate(sentences)
+    }

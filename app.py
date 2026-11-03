@@ -33,7 +33,7 @@ st.set_page_config(page_title="FinRoute AI", page_icon="📊", layout="wide")
 def get_agent(provider: str, knobs: tuple):
     from agent import Agent
 
-    keys = ("top_k", "min_similarity", "confidence_threshold", "use_scope_rules", "use_term_coverage", "use_llm_gate")
+    keys = ("top_k", "min_similarity", "confidence_threshold", "use_scope_rules", "use_term_coverage", "use_llm_gate", "decider")
     return Agent(provider, Settings(**dict(zip(keys, knobs))))
 
 
@@ -52,6 +52,8 @@ with st.sidebar:
                             help="API 키가 없으면 offline(키워드 분류 + 추출형 답변)으로 동작합니다.")
     if provider != detected and detected == "offline":
         st.warning(".env에 API 키가 없어 이 모드는 실패할 수 있습니다.")
+    decider = st.radio("판정·충분성·근거 지지 판단", ["llm", "jev"], horizontal=True, disabled=provider == "offline",
+                       help="jev: TypeSafe AI의 의사결정 모델이 보정된 확률로 판단합니다(.env에 JEV_API_KEY 필요). 답변 작성은 LLM이 합니다.")
     conf = st.slider("판정 신뢰도 임계값 (이보다 낮으면 되묻기)", 0.0, 1.0, Settings.confidence_threshold, 0.05)
     top_k = st.slider("근거 섹션 수 (top_k)", 2, 8, Settings.top_k)
     use_scope = st.toggle("범위 규칙으로 보류", True)
@@ -78,7 +80,8 @@ with tab_ask:
         submitted = st.form_submit_button("질문하기", type="primary")
 
     if submitted and q.strip():
-        agent = get_agent(provider, (top_k, Settings.min_similarity, conf, use_scope, use_term, use_gate))
+        agent = get_agent(provider, (top_k, Settings.min_similarity, conf, use_scope, use_term, use_gate,
+                                     decider if provider != "offline" else "llm"))
         try:
             with st.spinner("판정 → 근거 조립 → 답변 → 검증 중…"):
                 out = agent.run(q.strip())
@@ -114,6 +117,8 @@ with tab_ask:
             with st.container(border=True):
                 st.markdown(f"**① 카테고리 판정** — `{out['category']}` {cat['name']} ({cat['en']})")
                 st.progress(out["confidence"], text=f"신뢰도 {out['confidence']:.2f} / 임계값 {conf:.2f}")
+                if out.get("probabilities"):
+                    st.bar_chart(pd.Series(out["probabilities"], name="Jev 확률"), height=140, horizontal=True)
                 if out.get("alternative"):
                     st.caption(f"두 번째 후보: {out['alternative']} {CATEGORIES[out['alternative']]['name']}")
                 if out.get("evidence_types"):
