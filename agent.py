@@ -223,7 +223,7 @@ class Agent:
 
             self.jev = Jev()
             if not self.jev.available:
-                raise RuntimeError("decider=jev인데 .env에 JEV_API_KEY가 없습니다.")
+                raise RuntimeError("decider=jev인데 .env에 Jev 키·주소가 없습니다(JEV_API_KEY, 또는 LAYA_API_KEY + LAYA_BASE_URL).")
         self.graph = build_graph(self.llm, self.settings, self.jev)
 
     def run(self, question: str) -> AgentState:

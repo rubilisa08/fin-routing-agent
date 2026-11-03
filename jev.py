@@ -8,8 +8,12 @@ Jev는 글을 쓰지 않고, 상태(state)와 질문 목록을 받아 질문마�
 
 키와 주소는 .env에서 읽는다.
     JEV_API_KEY=...            # TypeSafe 또는 AIML API에서 받은 키
-    JEV_PROVIDER=typesafe      # typesafe(직접) | aimlapi. 비우면 typesafe
+    JEV_PROVIDER=typesafe      # typesafe(직접) | aimlapi | laya. 비우면 키를 보고 고른다
     JEV_MODEL=...              # 비우면 제공처별 기본 모델
+
+Laya(Jev 호환 오픈 가중치 모델, 직접 배포한 서버)를 쓸 때:
+    LAYA_API_KEY=...           # Railway Laya 서비스의 Variables 탭
+    LAYA_BASE_URL=https://<도메인>.up.railway.app
 """
 from __future__ import annotations
 
@@ -29,6 +33,8 @@ ENDPOINTS = {
     # 제공처: (결정 API 주소, 기본 모델 이름)
     "typesafe": ("https://api.typesafe.ai/v1/systemone", "jev-latest"),
     "aimlapi": ("https://api.aimlapi.com/v1/decisions", "typesafe/jev"),
+    # Laya는 서버 주소가 사람마다 다르다(LAYA_BASE_URL). 한국어 질문이라 다국어 체크포인트를 고정한다.
+    "laya": ("{base}/v1/systemone", "laya-multilingual"),
 }
 
 
@@ -38,11 +44,17 @@ class JevError(RuntimeError):
 
 class Jev:
     def __init__(self, provider: str | None = None):
-        self.key = os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY") or os.getenv("AIMLAPI_KEY")
-        self.provider = (provider or os.getenv("JEV_PROVIDER") or "typesafe").strip().lower()
+        default = "laya" if os.getenv("LAYA_API_KEY") and not os.getenv("JEV_API_KEY") else "typesafe"
+        self.provider = (provider or os.getenv("JEV_PROVIDER") or default).strip().lower()
         if self.provider not in ENDPOINTS:
             raise ValueError(f"알 수 없는 JEV_PROVIDER: {self.provider}")
-        self.url = os.getenv("JEV_BASE_URL") or ENDPOINTS[self.provider][0]
+        if self.provider == "laya":
+            self.key = os.getenv("LAYA_API_KEY")
+            base = (os.getenv("LAYA_BASE_URL") or "").rstrip("/")
+            self.url = ENDPOINTS["laya"][0].format(base=base) if base else ""
+        else:
+            self.key = os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY") or os.getenv("AIMLAPI_KEY")
+            self.url = os.getenv("JEV_BASE_URL") or ENDPOINTS[self.provider][0]
         self.model = os.getenv("JEV_MODEL") or ENDPOINTS[self.provider][1]
         self.api_calls = 0
         self.cache_hits = 0
@@ -50,12 +62,22 @@ class Jev:
 
     @property
     def available(self) -> bool:
-        return bool(self.key)
+        return bool(self.key and self.url)
+
+    def models(self) -> list[str]:
+        """키와 주소가 맞는지 확인하는 가벼운 호출(GET /v1/models)."""
+        resp = requests.get(self.url.rsplit("/", 1)[0] + "/models",
+                            headers={"Authorization": f"Bearer {self.key}"}, timeout=60)
+        if resp.status_code >= 400:
+            raise JevError(f"Jev {self.provider} HTTP {resp.status_code}: {resp.text[:300]}")
+        data = resp.json()
+        items = data.get("data", data.get("models", data)) if isinstance(data, dict) else data
+        return [m.get("id", m.get("name")) if isinstance(m, dict) else m for m in items]
 
     def decide(self, state, questions: dict) -> dict:
         """질문마다 결과를 돌려준다: {키: {"noul": p} | {"choice": k, "confidence": c, "probabilities": {...}}}"""
         if not self.available:
-            raise JevError(".env에 JEV_API_KEY가 없습니다.")
+            raise JevError(".env에 Jev 키와 주소가 없습니다(JEV_API_KEY, 또는 LAYA_API_KEY + LAYA_BASE_URL).")
         body = {"model": self.model, "state": state, "questions": questions}
         use_cache = os.getenv("LLM_CACHE", "1") != "0"
         key = hashlib.sha256(json.dumps([self.provider, body], ensure_ascii=False, sort_keys=True).encode()).hexdigest()
