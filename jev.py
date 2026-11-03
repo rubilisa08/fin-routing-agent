@@ -8,7 +8,10 @@ Jev는 글을 쓰지 않고, 상태(state)와 질문 목록을 받아 질문마�
 
 키와 주소는 .env에서 읽는다.
     JEV_API_KEY=...            # TypeSafe 또는 AIML API에서 받은 키
-    JEV_PROVIDER=typesafe      # typesafe(직접) | aimlapi | laya. 비우면 키를 보고 고른다
+    JEV_PROVIDER=typesafe      # typesafe(직접) | openrouter | aimlapi | laya. 비우면 키를 보고 고른다
+
+OpenRouter로 Jev를 쓸 때(TypeSafe 계정·대기 없이 가능):
+    OPENROUTER_API_KEY=...     # openrouter.ai → Keys
     JEV_MODEL=...              # 비우면 제공처별 기본 모델
 
 Laya(Jev 호환 오픈 가중치 모델, 직접 배포한 서버)를 쓸 때:
@@ -33,6 +36,8 @@ ENDPOINTS = {
     # 제공처: (결정 API 주소, 기본 모델 이름)
     "typesafe": ("https://api.typesafe.ai/v1/systemone", "jev-latest"),
     "aimlapi": ("https://api.aimlapi.com/v1/decisions", "typesafe/jev"),
+    # OpenRouter의 System One 호환 주소. 측정 재현을 위해 버전을 고정한다.
+    "openrouter": ("https://openrouter.ai/api/v1/systemone", "typesafe/jev-1.14"),
     # Laya는 서버 주소가 사람마다 다르다(LAYA_BASE_URL). 한국어 질문이라 다국어 체크포인트를 고정한다.
     "laya": ("{base}/v1/systemone", "laya-multilingual"),
 }
@@ -44,7 +49,14 @@ class JevError(RuntimeError):
 
 class Jev:
     def __init__(self, provider: str | None = None):
-        default = "laya" if os.getenv("LAYA_API_KEY") and not os.getenv("JEV_API_KEY") else "typesafe"
+        if os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY"):
+            default = "typesafe"
+        elif os.getenv("OPENROUTER_API_KEY"):
+            default = "openrouter"
+        elif os.getenv("LAYA_API_KEY"):
+            default = "laya"
+        else:
+            default = "typesafe"
         self.provider = (provider or os.getenv("JEV_PROVIDER") or default).strip().lower()
         if self.provider not in ENDPOINTS:
             raise ValueError(f"알 수 없는 JEV_PROVIDER: {self.provider}")
@@ -52,6 +64,9 @@ class Jev:
             self.key = os.getenv("LAYA_API_KEY")
             base = (os.getenv("LAYA_BASE_URL") or "").rstrip("/")
             self.url = ENDPOINTS["laya"][0].format(base=base) if base else ""
+        elif self.provider == "openrouter":
+            self.key = os.getenv("OPENROUTER_API_KEY") or os.getenv("JEV_API_KEY")
+            self.url = os.getenv("JEV_BASE_URL") or ENDPOINTS["openrouter"][0]
         else:
             self.key = os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY") or os.getenv("AIMLAPI_KEY")
             self.url = os.getenv("JEV_BASE_URL") or ENDPOINTS[self.provider][0]
@@ -65,7 +80,12 @@ class Jev:
         return bool(self.key and self.url)
 
     def models(self) -> list[str]:
-        """키와 주소가 맞는지 확인하는 가벼운 호출(GET /v1/models)."""
+        """키와 주소가 맞는지 확인하는 가벼운 호출(GET /v1/models). OpenRouter는 키 정보 조회로 확인한다."""
+        if self.provider == "openrouter":
+            resp = requests.get("https://openrouter.ai/api/v1/key", headers={"Authorization": f"Bearer {self.key}"}, timeout=60)
+            if resp.status_code >= 400:
+                raise JevError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:300]}")
+            return [self.model]
         resp = requests.get(self.url.rsplit("/", 1)[0] + "/models",
                             headers={"Authorization": f"Bearer {self.key}"}, timeout=60)
         if resp.status_code >= 400:
