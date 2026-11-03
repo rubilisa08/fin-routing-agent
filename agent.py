@@ -30,6 +30,7 @@ class AgentState(TypedDict, total=False):
     probabilities: dict | None   # (Jev) 카테고리별 확률
     tool: str | None             # ② 조회한 근거 도구
     sections: list[Section]      # ② 프롬프트에 넣은 근거 섹션
+    candidates: list[str]        # ② 검색 상위 top_k 후보 섹션 ID
     scores: dict[str, float]     # ② 카테고리 안 섹션별 유사도
     gate: list[dict]             # ② 보류 판단 기록
     sufficient: bool
@@ -143,7 +144,7 @@ def build_graph(llm: LLM, settings: Settings, jev=None):
         asm = assemble(state["question"], state["category"], settings, llm, jev if use_jev else None)
         msg = f"② 근거 조립: {asm.tool or '-'} → {[s.id for s in asm.sections]} / {'충분' if asm.sufficient else '보류'}"
         return {
-            "tool": asm.tool, "sections": asm.sections, "scores": asm.scores, "gate": asm.gate,
+            "tool": asm.tool, "sections": asm.sections, "candidates": asm.candidates, "scores": asm.scores, "gate": asm.gate,
             "sufficient": asm.sufficient, "handoff_reason": asm.handoff_reason, "attempts": 0, "failed_drafts": [],
             "trace": state["trace"] + [msg],
         }

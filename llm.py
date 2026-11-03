@@ -29,10 +29,11 @@ def resolve_provider() -> str:
     forced = os.getenv("LLM_PROVIDER", "").strip().lower()
     if forced:
         return forced
-    if os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"):
-        return "gemini"
+    # 측정은 OpenAI로 했고 Gemini 무료 등급은 하루 20회 한도라, 두 키가 다 있으면 OpenAI를 고른다
     if os.getenv("OPENAI_API_KEY"):
         return "openai"
+    if os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"):
+        return "gemini"
     return "offline"
 
 

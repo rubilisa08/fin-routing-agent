@@ -158,7 +158,8 @@ class Settings:
 class Assembly:
     category: str
     tool: str | None
-    sections: list[Section] = field(default_factory=list)
+    sections: list[Section] = field(default_factory=list)   # 최종적으로 프롬프트에 넣는 섹션
+    candidates: list[str] = field(default_factory=list)     # 검색 상위 top_k 후보(게이트가 이 중에서 고른다)
     scores: dict[str, float] = field(default_factory=dict)
     sufficient: bool = False
     handoff_reason: str = ""
@@ -256,6 +257,7 @@ def assemble(question: str, category: str, settings: Settings, llm=None, jev=Non
     ranked = rank_sections(question, cat["sections"])
     asm.scores = {s.id: round(score, 3) for s, score in ranked}
     asm.sections = [s for s, _ in ranked[: settings.top_k]]
+    asm.candidates = [s.id for s in asm.sections]
 
     # (a) 규칙: 각 문서의 '범위' 문단에 적힌, 다루지 않는 요청인가
     if settings.use_scope_rules:
